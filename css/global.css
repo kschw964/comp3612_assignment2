@@ -1,0 +1,22 @@
+:root {
+  --colorPrimary: green;
+  --colorSecondary: pink;
+  --colorBackground: lightgrey;
+  --colorSurface: grey;
+}
+
+.hidden {
+  display: none;
+}
+
+body {
+  background-color: var(--colorBackground);
+}
+
+header {
+  background-color: var(--colorPrimary);
+}
+
+section {
+  background-color: var(--colorSurface);
+}
