@@ -38,3 +38,27 @@ header nav button:hover {
 section {
   background-color: var(--colorSurface);
 }
+
+/* Popup */
+#creditsPopup {
+  position: absolute;
+  border: 2px solid var(--colorSecondary);
+  border-radius: 4px;
+  background-color: var(--colorPrimary);
+  top: 56px;
+  right: 16px;
+}
+
+#creditsPopup ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 20px;
+}
+
+#creditsPopup li:not(li:last-of-type) {
+  margin-bottom: 16px;
+}
+
+#creditsPopup a {
+  color: var(--colorSecondary);
+}

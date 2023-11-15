@@ -21,3 +21,14 @@ if (!songs) {
 } else {
   // call method that needs the songList using the songs variable
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+  // EventListener to show Credits-Popup and hide it again after 5 seconds
+  document.querySelector("#creditsButton").addEventListener("mouseover", () => {
+    const popupClasses = document.querySelector("#creditsPopup").classList;
+    popupClasses.remove("hidden");
+    setTimeout(() => {
+      popupClasses.add("hidden");
+    }, 5000);
+  });
+});
