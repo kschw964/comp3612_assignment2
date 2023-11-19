@@ -23,7 +23,12 @@ if (!songs) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  // EventListener to show Credits-Popup and hide it again after 5 seconds
+  addPopupFunctionality();
+  addNavClickListeners();
+});
+
+// add EventListener to show Credits-Popup and hide it again after 5 seconds
+function addPopupFunctionality() {
   document.querySelector("#creditsButton").addEventListener("mouseover", () => {
     const popupClasses = document.querySelector("#creditsPopup").classList;
     popupClasses.remove("hidden");
@@ -31,4 +36,29 @@ document.addEventListener("DOMContentLoaded", () => {
       popupClasses.add("hidden");
     }, 5000);
   });
-});
+}
+
+function addNavClickListeners() {
+  document
+    .querySelector("nav button#searchButton")
+    .addEventListener("click", (e) => {
+      document.querySelector("main#home").classList.add("hidden");
+      document.querySelector("main#search").classList.remove("hidden");
+      document.querySelector("main#playlist").classList.add("hidden");
+      document.querySelector("main#song").classList.add("hidden");
+    });
+  document
+    .querySelector("nav button#playlistButton")
+    .addEventListener("click", (e) => {
+      document.querySelector("main#home").classList.add("hidden");
+      document.querySelector("main#search").classList.add("hidden");
+      document.querySelector("main#playlist").classList.remove("hidden");
+      document.querySelector("main#song").classList.add("hidden");
+    });
+  document.querySelector("header img").addEventListener("click", (e) => {
+    document.querySelector("main#home").classList.remove("hidden");
+    document.querySelector("main#search").classList.add("hidden");
+    document.querySelector("main#playlist").classList.add("hidden");
+    document.querySelector("main#song").classList.add("hidden");
+  });
+}
