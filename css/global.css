@@ -24,7 +24,12 @@ header {
   align-items: center;
 }
 
+header img {
+  cursor: pointer;
+}
+
 header nav button {
+  cursor: pointer;
   margin-left: 8px;
   padding: 8px 32px;
   border: none;
@@ -47,7 +52,7 @@ section {
   border-radius: 4px;
   box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.5);
   background-color: var(--colorPrimary);
-  top: 56px;
+  top: 3.5em;
   right: 16px;
 }
 
