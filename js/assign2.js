@@ -45,24 +45,24 @@ function addNavClickListeners() {
   document
     .querySelector("nav button#searchButton")
     .addEventListener("click", (e) => {
-      document.querySelector("main#home").classList.add("hidden");
-      document.querySelector("main#search").classList.remove("hidden");
-      document.querySelector("main#playlist").classList.add("hidden");
-      document.querySelector("main#song").classList.add("hidden");
+      document.querySelector("main#home").style.display = "none";
+      document.querySelector("main#search").style.display = "grid";
+      document.querySelector("main#playlist").style.display = "none";
+      document.querySelector("main#song").style.display = "none";
     });
   document
     .querySelector("nav button#playlistButton")
     .addEventListener("click", (e) => {
-      document.querySelector("main#home").classList.add("hidden");
-      document.querySelector("main#search").classList.add("hidden");
-      document.querySelector("main#playlist").classList.remove("hidden");
-      document.querySelector("main#song").classList.add("hidden");
+      document.querySelector("main#home").style.display = "none";
+      document.querySelector("main#search").style.display = "none";
+      document.querySelector("main#playlist").style.display = "grid";
+      document.querySelector("main#song").style.display = "none";
     });
   document.querySelector("header img").addEventListener("click", (e) => {
-    document.querySelector("main#home").classList.remove("hidden");
-    document.querySelector("main#search").classList.add("hidden");
-    document.querySelector("main#playlist").classList.add("hidden");
-    document.querySelector("main#song").classList.add("hidden");
+    document.querySelector("main#home").style.display = "grid";
+    document.querySelector("main#search").style.display = "none";
+    document.querySelector("main#playlist").style.display = "none";
+    document.querySelector("main#song").style.display = "none";
   });
 }
 
