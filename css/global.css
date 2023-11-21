@@ -64,3 +64,41 @@ section {
 #creditsPopup a {
   color: var(--colorSecondary);
 }
+
+/* Home Screen */
+main#home {
+  margin: 16px;
+  display: grid;
+  grid-template: 1fr / 1fr 1fr 1fr;
+  gap: 16px;
+}
+
+main#home section {
+  border-radius: 16px;
+}
+
+main#home section h1 {
+  margin: 0;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  border-radius: 16px 16px 0 0;
+  text-align: center;
+  background-color: var(--colorSecondary);
+}
+
+main#home section ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+main#home section ul li {
+  cursor: pointer;
+  text-align: center;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+main#home section ul li:nth-of-type(even) {
+  background-color: rgba(0, 0, 0, 0.1);
+}
