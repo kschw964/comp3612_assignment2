@@ -42,8 +42,44 @@
       </section>
     </main>
     <main id="search" class="hidden">
-      <aside><h2>Basic Song Search</h2></aside>
-      <section><h2>Browse/Search Results</h2></section>
+      <aside>
+        
+        <ul> 
+          <label> <h2> Basic Song Search </h2> </label>
+          <li>
+            <input type="radio" name="filterMethod" value="title" id="titleRadio" checked >Title </input>
+            <input type="text" id="titleTextField" >
+          </li>
+
+          <li>
+            <input type="radio" name="filterMethod" value="artist" id="artistRadio" >Artist </input>
+            <select id="artistDropdown">
+              <option value="" disabled selected>Select One</option>
+            </select>
+          </li>
+          
+          <li>
+            <input type="radio" name="filterMethod" value="genre" id="genreRadio" >Genre </input>
+            <select id="genreDropdown">
+              <option value="" disabled selected>Select One</option>
+            </select>
+          </li>
+
+          <li>
+            <button id="clearButton"> Clear </button>
+            <button id="filterButton"> Filter</button>
+          </li>
+
+        </ul>
+        
+
+      </aside>
+      <section>
+        <h2>Browse/Search Results</h2>
+          <ul id="browseList">
+          </ul>
+
+      </section>
     </main>
     <main id="playlist" class="hidden">
       <section><h2>Playlist Details</h2></section>
