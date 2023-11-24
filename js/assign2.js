@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // call methods that need the songList using data as argument
         populateHomeScreen(data);
         populateSearchScreen(data)
+        addfilterEventListeners(data);
         FORTESTINGONLY_addRandomSongButton(data);
       })
       .catch((error) => {
@@ -27,12 +28,11 @@ document.addEventListener("DOMContentLoaded", () => {
     // call methods that need the songList using the storedSongs variable
     populateHomeScreen(storedSongs);
     populateSearchScreen(storedSongs);
+    addfilterEventListeners(storedSongs);
     FORTESTINGONLY_addRandomSongButton(storedSongs);
   }
-
   addPopupFunctionality();
   addNavClickListeners();
-  addfilterEventListeners(storedSongs);
   populatePlaylist();
 });
 
@@ -75,7 +75,7 @@ function addNavClickListeners() {
 function addfilterEventListeners(songList){
 
 /* 
-CSS code that listens to radioButtons and greys non-selected.
+listens to radioButtons and greys non-selected.
 */
 let titleRadio = document.querySelector('#titleRadio');
 titleRadio.addEventListener("click", () => {
@@ -104,29 +104,99 @@ clearButton.addEventListener("click", () => {
 
     let titleRadio = document.querySelector('#titleRadio');
     titleRadio.checked = true;
-
     let filterRadioSelected = document.querySelector('input[name="filterMethod"]');
     filterRadioSelected.value = 0;
-
     const titleTextField = document.querySelector('#titleTextField');
     titleTextField.value = '';
-
     const artistDropdown = document.querySelector('#artistDropdown');
     artistDropdown.selectedIndex = 0;
-
     const genreDropdown = document.querySelector('#genreDropdown');
     genreDropdown.selectedIndex = 0;
-    
+    document.querySelector("#titleTextField").style.opacity = "1";
+    document.querySelector("#artistDropdown").style.opacity = "0.5";
+    document.querySelector("#genreDropdown").style.opacity = "0.5";
+
     const arrangedList = rearrangeList(songList, "title");
     populateBrowseList(arrangedList);
-
 });
 
 /* 
 via radio buttons, calls populateList with given type and target, when filter button hit 
+arranges them alphabetically per given category
 */
 const filterButton = document.querySelector('#filterButton');
 filterButton.addEventListener("click", () => {
+  const currList = getCurrentFilteredList(songList);
+  populateBrowseList(currList);
+});
+
+/*
+reorders browelist when reorder buttons are clicked
+*/
+const orderTitle = document.querySelector("#orderTitle");
+orderTitle.addEventListener("click", function(e){
+  const currList = getCurrentFilteredList(songList);
+  const arrangedList = rearrangeList(currList, "title");
+  populateBrowseList(arrangedList);
+});
+const orderArtist = document.querySelector("#orderArtist");
+orderArtist.addEventListener("click", function(e){
+  const currList = getCurrentFilteredList(songList);
+  const arrangedList = rearrangeList(currList, "artist");
+  populateBrowseList(arrangedList);
+});
+const orderYear = document.querySelector("#orderYear");
+orderYear.addEventListener("click", function(e){
+  const currList = getCurrentFilteredList(songList);
+  const arrangedList = rearrangeList(currList, "year");
+  populateBrowseList(arrangedList);
+});
+const orderGenre = document.querySelector("#orderGenre");
+orderGenre.addEventListener("click", function(e){
+  const currList = getCurrentFilteredList(songList);
+  const arrangedList = rearrangeList(currList, "genre");
+  populateBrowseList(arrangedList);
+});
+const orderPopularity = document.querySelector("#orderPopularity");
+orderPopularity.addEventListener("click", function(e){
+  const currList = getCurrentFilteredList(songList);
+  const arrangedList = rearrangeList(currList, "popularity");
+  populateBrowseList(arrangedList);
+});
+
+/* 
+listener for the name part of list item of song, then grabs the div ID which was set to the song ID.
+Switch to song screen, pass the song ID to a new function that populates the song page.  
+*/
+const browseSearchList = document.querySelector("#browseList");
+browseSearchList.addEventListener("click", function(e){
+
+  if( e.target.classList == "songName" ){
+    const songID = e.target.dataset.songId;
+    populateSongViewScreen(songID, songList);
+    document.querySelector("main#home").style.display = "none";
+    document.querySelector("main#search").style.display = "none";
+    document.querySelector("main#playlist").style.display = "none";
+    document.querySelector("main#song").style.display = "grid";
+  }
+});
+
+// 'add to playlist button' for each li
+const browseList = document.querySelector("#browseList");
+browseList.addEventListener("click", function(e){
+
+        if( e.target.tagName === "BUTTON" ){
+            const songID = e.target.dataset.songId;
+            addSongToPlaylist(songID);
+        }
+    });
+
+}
+
+/*
+returns array of song objects based on current filters
+*/
+function getCurrentFilteredList(songList){
 
   let filterRadioSelected = document.querySelector('input[name="filterMethod"]:checked').value;
 
@@ -134,30 +204,20 @@ filterButton.addEventListener("click", () => {
     const titleUserInput = document.querySelector('#titleTextField').value;    
     const newSongList = filterList(songList, "title", titleUserInput)
     const arrangedList = rearrangeList(newSongList, "title");
-    populateBrowseList(arrangedList);
+    return arrangedList;
 
   } else if (filterRadioSelected == "artist"){
     const artistUserInput = document.querySelector('#artistDropdown').value;  
     const newSongList = filterList(songList, "artist", artistUserInput)
     const arrangedList = rearrangeList(newSongList, "artist");
-    populateBrowseList(arrangedList);
+    return arrangedList;
 
   } else { //genre
     const genreUserInput = document.querySelector('#genreDropdown').value;    
     const newSongList = filterList(songList, "genre", genreUserInput)
     const arrangedList = rearrangeList(newSongList, "genre");
-    populateBrowseList(arrangedList);
+    return arrangedList;
   }
-});
-
-// add to playlist button for each li
-const browseList = document.querySelector("#browseList");
-browseList.addEventListener("click", function(e){
-
-        if( e.target.tagName === "BUTTON" ){
-            const songID = e.target.id;
-        }
-    });
 }
 
 function populateSearchScreen(songList){
@@ -171,6 +231,90 @@ function populateSearchScreen(songList){
   // inittialy arrange alpabetically by title
   const arrangedList = rearrangeList(songList, "title");
   populateBrowseList(arrangedList);
+}
+
+function populateSongViewScreen(songID, songList){
+
+    fetch('./json/artists.json')
+    .then(response => response.json())
+    .then(artists => {
+
+      const songInfoList = document.querySelector("#songInfoList");
+      const foundSong = songList.find( currSong => currSong.song_id == songID );
+
+      const songTitleItem = document.createElement("li");
+      songTitleItem.innerHTML = `Title: ${foundSong.title}`;
+      songInfoList.appendChild(songTitleItem);
+
+      const artistItem = document.createElement("li");
+      artistItem.innerHTML = `Artist: ${foundSong.artist.name}`;
+      songInfoList.appendChild(artistItem);
+  
+      const artistId = foundSong.artist.id;
+      const foundArtist = artists.find( currArtist => currArtist.id == artistId );
+      const artistTypeItem = document.createElement("li");
+      artistTypeItem.innerHTML = `Artist Type: ${foundArtist.type}`;
+      songInfoList.appendChild(artistTypeItem);
+
+      const genreItem = document.createElement("li");
+      genreItem.innerHTML = `Genre: ${foundSong.genre.name}`;
+      songInfoList.appendChild(genreItem);
+
+      const yearItem = document.createElement("li");
+      yearItem.innerHTML = `Year: ${foundSong.year}`;
+      songInfoList.appendChild(yearItem);
+
+      const durationItem = document.createElement("li");
+      const minutes = Math.floor(foundSong.details.duration / 60);
+      const remainingSeconds = foundSong.details.duration % 60;    
+      const formattedSeconds = String(remainingSeconds).padStart(2, '0');
+      convertedDuration =  `${minutes}:${formattedSeconds}`;
+      durationItem.innerHTML = `Duration: ${convertedDuration}`;
+      songInfoList.appendChild(durationItem);
+    
+      const songAnalysisList = document.querySelector("#songAnalysisList");    
+   
+      const bpmItem = document.createElement("li");
+      bpmItem.innerHTML = `BPM: ${foundSong.details.bpm}`;
+      songAnalysisList.appendChild(bpmItem);
+      
+      const popularityItem = document.createElement("li");
+      popularityItem.innerHTML = `Popularity: ${foundSong.details.popularity}`;
+      songAnalysisList.appendChild(popularityItem);
+    
+      const loudnessItem = document.createElement("li");
+      loudnessItem.innerHTML = `Loudness: ${foundSong.details.loudness}`;
+      songAnalysisList.appendChild(loudnessItem);
+    
+      const energyItem = document.createElement("li");
+      energyItem.innerHTML = `Energy: ${foundSong.analytics.energy}`;
+      songAnalysisList.appendChild(energyItem);
+
+      const danceabilityItem = document.createElement("li");
+      danceabilityItem.innerHTML = `Danceability: ${foundSong.analytics.danceability}`;
+      songAnalysisList.appendChild(danceabilityItem);
+
+      const livenessItem = document.createElement("li");
+      livenessItem.innerHTML = `Liveness: ${foundSong.analytics.liveness}`;
+      songAnalysisList.appendChild(livenessItem);
+      
+      const valenceItem = document.createElement("li");
+      valenceItem.innerHTML = `Valence: ${foundSong.analytics.valence}`;
+      songAnalysisList.appendChild(valenceItem);
+
+      const acousticnessItem = document.createElement("li");
+      acousticnessItem.innerHTML = `Acousticness: ${foundSong.analytics.acousticness}`;
+      songAnalysisList.appendChild(acousticnessItem);
+      
+      const speechinessItem = document.createElement("li");
+      speechinessItem.innerHTML = `Speechiness: ${foundSong.analytics.speechiness}`;
+      songAnalysisList.appendChild(speechinessItem);
+    
+    })
+    .catch(error => {
+        console.error('Error fetching artists', error);
+    });
+
 }
 
 /* 
@@ -235,6 +379,7 @@ function populateGenresOptions(genres){
 
 /*
  fills list of songs for search/browse page
+ note: adds a button that has an ID that is the songID for that list item
 */
 function populateBrowseList(songList){
   const browseList = document.querySelector("#browseList");
@@ -244,29 +389,35 @@ function populateBrowseList(songList){
     const newLi = document.createElement("li");
     
     const songName = document.createElement("div");
-    songName.setAttribute("class","songName");
+    songName.dataset.songId = songs.song_id;
+    songName.classList.add("songName");
     songName.innerHTML = songs.title;
     newLi.appendChild(songName);
 
     const artistName = document.createElement("div");
-    artistName.setAttribute("class","artistName");
+    artistName.classList.add("artistName");
     artistName.innerHTML = songs.artist.name;
     newLi.appendChild(artistName);
 
     const songYear = document.createElement("div");
-    songYear.setAttribute("class","songYear");
+    songYear.classList.add("songYear");
     songYear.innerHTML = songs.year;
     newLi.appendChild(songYear);
 
     const genreName = document.createElement("div");
-    genreName.setAttribute("class","genreName");
+    genreName.classList.add("genreName");
     genreName.innerHTML = songs.genre.name;
     newLi.appendChild(genreName);
 
+    const popularity = document.createElement("div");
+    popularity.classList.add("popularity");
+    popularity.innerHTML = songs.details.popularity;
+    newLi.appendChild(popularity);
 
     const addButton = document.createElement("button");
     addButton.innerHTML = "Add to Playlist";
-    addButton.setAttribute("id", songs.song_id);
+    addButton.dataset.songId = songs.song_id;
+    addButton.classList.add("addToPlayListButton");
     newLi.appendChild(addButton);
 
     browseList.appendChild(newLi);
@@ -307,10 +458,16 @@ function rearrangeList(songList, orderByType){
       if (a.artist.name > b.artist.name) { return 1; }
       return 0;
     });
-  } else { //"genre"
+  } else if(orderByType == "genre") {
     newList.sort((a, b) => {  
       if (a.genre.name < b.genre.name) { return -1; }
       if (a.genre.name > b.genre.name) { return 1; }
+      return 0;
+    });
+  } else { // popularity
+    newList.sort((a, b) => {  
+      if (a.details.popularity < b.details.popularity) { return 1; }
+      if (a.details.popularity > b.details.popularity) { return -1; }
       return 0;
     });
   }
@@ -333,8 +490,7 @@ function rearrangeList(songList, orderByType){
 */
 function filterList(songList, filterByType, filterTarget){
 
-  // loop through all songs
-  // if substring, then make deep copy and add to newList
+  // loop through all songs. if substring, then make deep copy and add to newList
   const newList = []
 
   if(filterByType == "title"){

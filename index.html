@@ -43,39 +43,37 @@
     </main>
     <main id="search" class="hidden">
       <aside>
-        
         <ul> 
           <label> <h2> Basic Song Search </h2> </label>
           <li>
             <input type="radio" name="filterMethod" value="title" id="titleRadio" checked >Title </input>
             <input type="text" id="titleTextField" >
           </li>
-
           <li>
             <input type="radio" name="filterMethod" value="artist" id="artistRadio" >Artist </input>
             <select id="artistDropdown">
               <option value="" disabled selected>Select One</option>
             </select>
           </li>
-          
           <li>
             <input type="radio" name="filterMethod" value="genre" id="genreRadio" >Genre </input>
             <select id="genreDropdown">
               <option value="" disabled selected>Select One</option>
             </select>
           </li>
-
           <li>
             <button id="clearButton"> Clear </button>
             <button id="filterButton"> Filter</button>
           </li>
-
         </ul>
-        
-
       </aside>
       <section>
         <h2>Browse/Search Results</h2>
+          <button id="orderTitle"> By Title</button>
+          <button id="orderArtist"> By Artist</button>
+          <button id="orderYear"> By Year</button>
+          <button id="orderGenre"> By Genre</button>
+          <button id="orderPopularity"> By Popularity</button>
           <ul id="browseList">
           </ul>
 
@@ -103,8 +101,20 @@
       </section>
     </main>
     <main id="song" class="hidden">
-      <section><h2>Song Information</h2></section>
+      <section>
+        
+        <h2>Song Information</h2>
+        <ul id="songInfoList"> 
+        </ul>  
+        <h3>Analysis Data</h3>
+        <ul id="songAnalysisList"> 
+        </ul>  
+
+        
+      </section>
+      
       <section><h2>Radar Chart</h2></section>
+      
     </main>
     <footer></footer>
   </body>
