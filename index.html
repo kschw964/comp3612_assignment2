@@ -6,6 +6,7 @@
     <title>Assignment 2</title>
     <link rel="stylesheet" href="css/global.css" />
     <script src="js/assign2.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
   <body>
     <header>
@@ -102,18 +103,20 @@
     </main>
     <main id="song" class="hidden">
       <section>
-        
         <h2>Song Information</h2>
         <ul id="songInfoList"> 
         </ul>  
         <h3>Analysis Data</h3>
         <ul id="songAnalysisList"> 
         </ul>  
-
-        
       </section>
       
-      <section><h2>Radar Chart</h2></section>
+      <section>
+        <h2>Radar Chart</h2>
+        <div>
+          <canvas id="radarChart"></canvas>
+        </div>
+      </section>
       
     </main>
     <footer></footer>

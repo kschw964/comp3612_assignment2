@@ -243,7 +243,14 @@ function populateSongViewScreen(songID, songList){
     .then(response => response.json())
     .then(artists => {
 
+      //clear previous song
       const songInfoList = document.querySelector("#songInfoList");
+      songInfoList.innerHTML = "";
+      const songAnalysisList = document.querySelector("#songAnalysisList");  
+      songAnalysisList.innerHTML = "";
+      const radarChart = document.querySelector('#radarChart');
+      radarChart.innerHTML = "";
+
       const foundSong = songList.find( currSong => currSong.song_id == songID );
 
       const songTitleItem = document.createElement("li");
@@ -275,9 +282,7 @@ function populateSongViewScreen(songID, songList){
       convertedDuration =  `${minutes}:${formattedSeconds}`;
       durationItem.innerHTML = `Duration: ${convertedDuration}`;
       songInfoList.appendChild(durationItem);
-    
-      const songAnalysisList = document.querySelector("#songAnalysisList");    
-   
+       
       const bpmItem = document.createElement("li");
       bpmItem.innerHTML = `BPM: ${foundSong.details.bpm}`;
       songAnalysisList.appendChild(bpmItem);
@@ -299,7 +304,7 @@ function populateSongViewScreen(songID, songList){
       songAnalysisList.appendChild(danceabilityItem);
 
       const livenessItem = document.createElement("li");
-      livenessItem.innerHTML = `Liveness: ${foundSong.analytics.liveness}`;
+      livenessItem.innerHTML = `Liveness: ${foundSong.analytics.acousticness}`;
       songAnalysisList.appendChild(livenessItem);
       
       const valenceItem = document.createElement("li");
@@ -312,13 +317,34 @@ function populateSongViewScreen(songID, songList){
       
       const speechinessItem = document.createElement("li");
       speechinessItem.innerHTML = `Speechiness: ${foundSong.analytics.speechiness}`;
-      songAnalysisList.appendChild(speechinessItem);
+      songAnalysisList.appendChild(speechinessItem);  
     
+      new Chart(radarChart, {
+        type: 'radar',
+        data: {
+          labels: ['Danceability', 'Energy', 'Speechiness', 'Acousticness', 'Liveness', 'Valence'],
+          datasets: [{
+            label: '',
+            data: [foundSong.analytics.danceability, foundSong.analytics.energy, foundSong.analytics.speechiness, 
+              foundSong.analytics.acousticness, foundSong.analytics.acousticness, foundSong.analytics.valence],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
     })
     .catch(error => {
         console.error('Error fetching artists', error);
     });
 
+
+    
 }
 
 /* 
