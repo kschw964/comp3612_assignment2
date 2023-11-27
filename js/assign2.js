@@ -653,9 +653,16 @@ function populateSongList(songList) {
 
   for (let i = 0; i < 10; i++) {
     const li = document.createElement("li");
+    li.dataset.song_id = sorted[i].song_id;
     li.appendChild(document.createTextNode(sorted[i].title));
     popularSongsUl.appendChild(li);
   }
+
+  popularSongsUl.addEventListener("click", (e) => {
+    if (e.target.nodeName == "LI" && e.target.dataset.song_id) {
+      showSingleSongView(e.target.dataset.song_id);
+    }
+  });
 }
 
 function populatePlaylist() {
