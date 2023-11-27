@@ -176,11 +176,7 @@ Switch to song screen, pass the song ID to a new function that populates the son
   browseSearchList.addEventListener("click", function (e) {
     if (e.target.classList == "songName") {
       const songID = e.target.dataset.songId;
-      populateSongViewScreen(songID, songList);
-      document.querySelector("main#home").style.display = "none";
-      document.querySelector("main#search").style.display = "none";
-      document.querySelector("main#playlist").style.display = "none";
-      document.querySelector("main#song").style.display = "grid";
+      showSingleSongView(songID);
     }
   });
 
@@ -231,6 +227,14 @@ function populateSearchScreen(songList) {
   // inittialy arrange alpabetically by title
   const arrangedList = rearrangeList(songList, "title");
   populateBrowseList(arrangedList);
+}
+
+function showSingleSongView(songID) {
+  populateSongViewScreen(songID, JSON.parse(localStorage.getItem("songList")));
+  document.querySelector("main#home").style.display = "none";
+  document.querySelector("main#search").style.display = "none";
+  document.querySelector("main#playlist").style.display = "none";
+  document.querySelector("main#song").style.display = "grid";
 }
 
 function populateSongViewScreen(songID, songList) {
@@ -674,6 +678,11 @@ function populatePlaylist() {
     .addEventListener("click", (e) => {
       if (e.target.nodeName == "BUTTON" && e.target.dataset.song_id) {
         removeSongFromPlaylist(e.target.dataset.song_id);
+      } else if (
+        e.target.nodeName == "TD" &&
+        e.target.parentNode.dataset.song_id
+      ) {
+        showSingleSongView(e.target.parentNode.dataset.song_id);
       }
     });
 }

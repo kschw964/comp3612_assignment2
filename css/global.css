@@ -144,6 +144,10 @@ main#playlist thead tr {
   background-color: rgba(0, 0, 0, 0.1);
 }
 
+main#playlist td {
+  cursor: pointer;
+}
+
 main#playlist th {
   text-align: start;
 }
