@@ -603,12 +603,11 @@ function populateGenreList(songList) {
 
   for (let i = 0; i < 10; i++) {
     const li = document.createElement("li");
-    li.appendChild(
-      document.createTextNode(
-        songList.find((element) => element.genre.id == sortedGenres[i][0]).genre
-          .name
-      )
-    );
+    const genre = songList.find(
+      (element) => element.genre.id == sortedGenres[i][0]
+    ).genre;
+    li.dataset.genre_id = genre.id;
+    li.appendChild(document.createTextNode(genre.name));
     popularGenreUl.appendChild(li);
   }
 }
@@ -625,8 +624,8 @@ function populateArtistList(songList) {
   }
 
   // sort the map by converting it to an array
-  const sortedArtists = [...count.values()].sort(
-    (one, other) => other.count - one.count
+  const sortedArtists = [...count].sort(
+    (one, other) => other[1].count - one[1].count
   );
 
   const popularArtistsUl = document.querySelector(
@@ -635,7 +634,9 @@ function populateArtistList(songList) {
 
   for (let i = 0; i < 10; i++) {
     const li = document.createElement("li");
-    li.appendChild(document.createTextNode(sortedArtists[i].name));
+    const artist = sortedArtists[i];
+    li.dataset.artist_id = artist[0];
+    li.appendChild(document.createTextNode(artist[1].name));
     popularArtistsUl.appendChild(li);
   }
 }
