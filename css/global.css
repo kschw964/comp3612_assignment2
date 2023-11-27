@@ -1,10 +1,11 @@
 :root {
-  --colorPrimary: green;
-  --colorSecondary: pink;
-  --colorBackground: lightgrey;
-  --colorSurface: grey;
+  --colorPrimary: #a9fff7;
+  --colorSecondary: #022b3a;
+  --colorBackground: #ffffff;
+  --colorSurface: #eeeeee;
 }
 
+/* General */
 .hidden {
   display: none;
 }
@@ -13,6 +14,17 @@ body {
   margin: 0;
   background-color: var(--colorBackground);
   font-family: sans-serif;
+}
+
+main {
+  margin: 16px;
+}
+
+section {
+  background-color: var(--colorSurface);
+  overflow: hidden;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+  border-radius: 16px;
 }
 
 /* Header */
@@ -26,6 +38,7 @@ header {
 
 header img {
   cursor: pointer;
+  width: 64px;
 }
 
 header nav button {
@@ -35,14 +48,11 @@ header nav button {
   border: none;
   border-radius: 4px;
   background-color: var(--colorSecondary);
+  color: white;
 }
 
 header nav button:hover {
   opacity: 85%;
-}
-
-section {
-  background-color: var(--colorSurface);
 }
 
 /* Popup */
@@ -52,7 +62,7 @@ section {
   border-radius: 4px;
   box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.5);
   background-color: var(--colorPrimary);
-  top: 3.5em;
+  top: 4.5em;
   right: 16px;
 }
 
@@ -72,23 +82,18 @@ section {
 
 /* Home Screen */
 main#home {
-  margin: 16px;
   display: grid;
   grid-template: 1fr / 1fr 1fr 1fr;
   gap: 16px;
-}
-
-main#home section {
-  border-radius: 16px;
 }
 
 main#home section h1 {
   margin: 0;
   padding-top: 16px;
   padding-bottom: 16px;
-  border-radius: 16px 16px 0 0;
   text-align: center;
   background-color: var(--colorSecondary);
+  color: white;
 }
 
 main#home section ul {
@@ -106,6 +111,106 @@ main#home section ul li {
 
 main#home section ul li:nth-of-type(even) {
   background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Playlist Screen */
+main#playlist header button {
+  cursor: pointer;
+  padding: 8px 32px;
+  border: none;
+  border-radius: 4px;
+  background-color: var(--colorSecondary);
+  color: white;
+}
+
+main#playlist header button:hover {
+  opacity: 90%;
+}
+
+main#playlist header button:active {
+  opacity: 70%;
+}
+
+main#playlist table {
+  table-layout: fixed;
+  width: 100%;
+  border-spacing: 0;
+}
+
+main#playlist thead tr {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+main#playlist td {
+  cursor: pointer;
+}
+
+main#playlist th {
+  text-align: start;
+}
+
+main#playlist th:nth-of-type(1) {
+  width: 35%;
+}
+
+main#playlist th:nth-of-type(3),
+main#playlist th:nth-of-type(5) {
+  width: min-content;
+}
+
+main#playlist td:nth-of-type(3),
+main#playlist td:nth-of-type(5) {
+  text-align: center;
+}
+
+main#playlist th:nth-of-type(6) {
+  width: 5%;
+}
+
+main#playlist td,
+main#playlist th {
+  padding: 12px 24px;
+}
+
+main#playlist th:first-of-type,
+main#playlist td:first-of-type {
+  padding-left: 100px;
+}
+
+main#playlist th:last-of-type,
+main#playlist td:last-of-type {
+  padding-right: 100px;
+}
+
+main#playlist td:not(td:last-of-type),
+main#playlist th:not(th:last-of-type) {
+  border-right: 2px solid rgba(0, 0, 0, 0.1);
+}
+
+main#playlist table button {
+  cursor: pointer;
+  padding: 8px;
+  border: none;
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+main#playlist table button:active {
+  background-color: rgba(0, 0, 0, 0.75);
+  color: white;
+}
+
+/* Footer */
+footer {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.75em;
+  margin-top: 100px;
+  text-align: center;
+}
+
+footer a {
+  color: var(--colorSecondary);
 }
 
 /* Browse/Search Page CSS */
