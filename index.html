@@ -45,7 +45,7 @@
     <main id="search" class="hidden">
       <aside>
         <ul> 
-          <label> <h2> Basic Song Search </h2> </label>
+          <label> <h2> Song Search </h2> </label>
           <li>
             <input type="radio" name="filterMethod" value="title" id="titleRadio" checked >Title </input>
             <input type="text" id="titleTextField" >
@@ -70,14 +70,13 @@
       </aside>
       <section>
         <h2>Browse/Search Results</h2>
-          <button id="orderTitle"> By Title</button>
-          <button id="orderArtist"> By Artist</button>
-          <button id="orderYear"> By Year</button>
-          <button id="orderGenre"> By Genre</button>
-          <button id="orderPopularity"> By Popularity</button>
+          <button id="orderTitle" class="buttonSelected">Title</button>
+          <button id="orderArtist">Artist</button>
+          <button id="orderYear">Year</button>
+          <button id="orderGenre">Genre</button>
+          <button id="orderPopularity">Popularity</button>
           <ul id="browseList">
           </ul>
-
       </section>
     </main>
     <main id="playlist" class="hidden">
