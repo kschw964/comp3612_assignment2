@@ -335,8 +335,8 @@ function launchBrowseWithFilter(songList, filterByType, filterTarget) {
 
 function populateSearchScreen(songList) {
   // add all artists and genres to the dropdown menus, grey
-  genres = fetchGenres();
-  artists = fetchArtists();
+  fetchGenres();
+  fetchArtists();
   // grey non selected radio buttons
   highlightTitleField();
   // inittialy arrange alpabetically by title
@@ -449,7 +449,6 @@ function populateSongViewScreen(songID, songList) {
 used on search page to retrieve and populate filter dropdown options 
 */
 function fetchArtists() {
-  genres = [];
   fetch("./json/artists.json")
     .then((response) => response.json())
     .then((artists) => {
@@ -465,10 +464,10 @@ for fetchArtists
 function populateArtistsOptions(artists) {
   const artistDropdown = document.querySelector("#artistDropdown");
 
-  for (const arts of artists) {
+  for (const artist of artists) {
     const newOpt = document.createElement("option");
-    newOpt.setAttribute("value", arts.name);
-    newOpt.innerHTML = arts.name;
+    newOpt.setAttribute("value", artist.name);
+    newOpt.innerHTML = artist.name;
     artistDropdown.appendChild(newOpt);
   }
 }
@@ -477,7 +476,6 @@ function populateArtistsOptions(artists) {
 used on search page to retrieve and populate  filter dropdown options 
 */
 function fetchGenres() {
-  genres = [];
   fetch("./json/genres.json")
     .then((response) => response.json())
     .then((genres) => {
@@ -493,10 +491,10 @@ for fetchGenres
 function populateGenresOptions(genres) {
   const genreDropdown = document.querySelector("#genreDropdown");
 
-  for (const gnrs of genres) {
+  for (const genre of genres) {
     const newOpt = document.createElement("option");
-    newOpt.setAttribute("value", gnrs.name);
-    newOpt.innerHTML = gnrs.name;
+    newOpt.setAttribute("value", genre.name);
+    newOpt.innerHTML = genre.name;
     genreDropdown.appendChild(newOpt);
   }
 }
