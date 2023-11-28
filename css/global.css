@@ -213,19 +213,53 @@ footer a {
   color: var(--colorSecondary);
 }
 
-/* Browse/Search Page CSS */
+/* Browse/Search Page */
 
-/* #search{
-display: inline;
-} */
+#search {
+  display: none;
+  grid-template-columns: 1fr 2fr;
+  grid-column-gap: 20px; 
+
+}
+#filterBox{
+  background-color: var(--colorPrimary);
+  height: 60%;
+  width: 60%;
+  border-radius: 16px;
+  justify-self: end; 
+}
+#filterBox * {
+  margin: 5px;
+}
+#filterList{
+list-style-type: none;
+}
+
+#resultsBox{
+  background-color: var(--colorPrimary);
+  height: 100%;
+  width: 70%;
+
+}
+#search h2{
+  padding: 20px;
+  text-align: center;
+
+}
 
 #browseList{
   list-style-type: none;
   padding-left: 20px;
-  max-height: 500px; /* Set your desired maximum height */
-  overflow: auto;    /* Add a scrollbar when content overflows the container */
+  height: 500px; 
+  width: 100%;
+  overflow-y: scroll;  
 }
 
+#browseList li{
+  padding: 5px;
+  margin: 5px;
+  border-bottom: 1px solid black; 
+}
 
 #orderTitle {
   margin-left: 100px;
@@ -234,19 +268,17 @@ display: inline;
   margin-left: 180px;
 }
 #orderYear {
-  margin-left: 60px;
+  margin-left: 70px;
 }
 #orderGenre {
-  margin-left: 50px;
+  margin-left: 100px;
 }
 #orderPopularity{
   margin-left: 40px;
 }
 .buttonSelected{
-
-  color: var(--colorPrimary); /* Set the color using a hex code, RGB value, or color name */
+  color: var(--colorPrimary);
   background-color: var(--colorSecondary);
-
 }
 
 .songName {
@@ -260,7 +292,7 @@ display: inline;
 }
 .songYear {
   display: inline-block;
-  width: 50px; 
+  width: 100px; 
 }
 .genreName {
   display: inline-block;
@@ -269,6 +301,10 @@ display: inline;
 .popularity{
   display: inline-block;
   width: 70px; 
+}
+.addToPlayListButton{
+  margin: 0px;
+  padding: 0px;
 }
 
 .songPopUp {
@@ -289,7 +325,7 @@ display: inline;
   padding: 16px;
   background-color: var(--colorSecondary);
   color: #fff;
-  transition: opacity 0.5s ease-in-out; /* Apply a transition to the opacity property */
+  transition: opacity 0.5s ease-in-out; 
   opacity: 0;
 
 }
@@ -301,3 +337,6 @@ display: inline;
 .pointerCursor {
   cursor: pointer;
 }
+
+
+
