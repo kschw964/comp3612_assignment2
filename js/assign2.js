@@ -19,7 +19,6 @@ document.addEventListener("DOMContentLoaded", () => {
         populateHomeScreen(data);
         populateSearchScreen(data);
         addfilterEventListeners(data);
-        FORTESTINGONLY_addRandomSongButton(data);
       })
       .catch((error) => {
         console.error(error);
@@ -29,7 +28,6 @@ document.addEventListener("DOMContentLoaded", () => {
     populateHomeScreen(storedSongs);
     populateSearchScreen(storedSongs);
     addfilterEventListeners(storedSongs);
-    FORTESTINGONLY_addRandomSongButton(storedSongs);
   }
   addPopupFunctionality();
   addNavClickListeners();
@@ -818,16 +816,4 @@ function createTextTabelData(text) {
   const td = document.createElement("td");
   td.textContent = text;
   return td;
-}
-
-// TODO: remove once search-view is implemented
-function FORTESTINGONLY_addRandomSongButton(songList) {
-  const buttonAdd = document.createElement("button");
-  buttonAdd.textContent = "Add Random";
-  buttonAdd.addEventListener("click", (e) => {
-    addSongToPlaylist(
-      songList[Math.floor(Math.random() * songList.length)].song_id
-    );
-  });
-  document.querySelector("main#playlist section header").appendChild(buttonAdd);
 }
