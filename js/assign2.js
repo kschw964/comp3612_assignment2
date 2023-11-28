@@ -506,52 +506,46 @@ function populateGenresOptions(genres) {
 function populateBrowseList(songList) {
   const browseList = document.querySelector("#browseList");
   browseList.innerHTML = "";
-  for (const songs of songList) {
+  for (const song of songList) {
     const newLi = document.createElement("li");
 
-    const songName = document.createElement("span");
-    songName.dataset.songId = songs.song_id;
-    songName.classList.add("songName");
-    if (songs.title.length > 25) {
-      songName.innerHTML = songs.title.substring(0, 25);
+    const songNameSpan = document.createElement("span");
+    songNameSpan.dataset.songId = song.song_id;
+    songNameSpan.classList.add("songName");
+    if (song.title.length > 25) {
+      songNameSpan.innerHTML = song.title.substring(0, 25);
       const elips = document.createElement("span");
       elips.classList.add("elips");
       elips.innerHTML = "&hellip;";
-      elips.dataset.fullSongName = songs.title;
-      songName.appendChild(elips);
+      elips.dataset.fullSongName = song.title;
+      songNameSpan.appendChild(elips);
     } else {
-      songName.innerHTML = songs.title;
+      songNameSpan.innerHTML = song.title;
     }
-    newLi.appendChild(songName);
 
-    const artistName = document.createElement("span");
-    artistName.classList.add("artistName");
-    artistName.innerHTML = songs.artist.name;
-    newLi.appendChild(artistName);
-
-    const songYear = document.createElement("span");
-    songYear.classList.add("songYear");
-    songYear.innerHTML = songs.year;
-    newLi.appendChild(songYear);
-
-    const genreName = document.createElement("span");
-    genreName.classList.add("genreName");
-    genreName.innerHTML = songs.genre.name;
-    newLi.appendChild(genreName);
-
-    const popularity = document.createElement("span");
-    popularity.classList.add("popularity");
-    popularity.innerHTML = songs.details.popularity;
-    newLi.appendChild(popularity);
+    newLi.append(
+      songNameSpan,
+      createTextSpanWithClass(song.artist.name, "artistName"),
+      createTextSpanWithClass(song.year, "songYear"),
+      createTextSpanWithClass(song.genre.name, "genreName"),
+      createTextSpanWithClass(song.details.popularity, "popularity")
+    );
 
     const addButton = document.createElement("button");
-    addButton.innerHTML = "+Playlist";
-    addButton.dataset.songId = songs.song_id;
+    addButton.textContent = "+Playlist";
+    addButton.dataset.songId = song.song_id;
     addButton.classList.add("addToPlayListButton");
     newLi.appendChild(addButton);
 
     browseList.appendChild(newLi);
   }
+}
+
+function createTextSpanWithClass(text, className) {
+  const span = document.createElement("span");
+  span.textContent = text;
+  span.classList.add(className);
+  return span;
 }
 
 function createTextListItem(text) {
