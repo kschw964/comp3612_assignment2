@@ -51,24 +51,15 @@ function addNavClickListeners() {
   document
     .querySelector("nav button#searchButton")
     .addEventListener("click", (e) => {
-      document.querySelector("main#home").style.display = "none";
-      document.querySelector("main#search").style.display = "grid";
-      document.querySelector("main#playlist").style.display = "none";
-      document.querySelector("main#song").style.display = "none";
+      showScreen("search");
     });
   document
     .querySelector("nav button#playlistButton")
     .addEventListener("click", (e) => {
-      document.querySelector("main#home").style.display = "none";
-      document.querySelector("main#search").style.display = "none";
-      document.querySelector("main#playlist").style.display = "grid";
-      document.querySelector("main#song").style.display = "none";
+      showScreen("playlist");
     });
   document.querySelector("header img").addEventListener("click", (e) => {
-    document.querySelector("main#home").style.display = "grid";
-    document.querySelector("main#search").style.display = "none";
-    document.querySelector("main#playlist").style.display = "none";
-    document.querySelector("main#song").style.display = "none";
+    showScreen("home");
   });
 }
 
@@ -277,42 +268,30 @@ function launchBrowseWithFilter(songList, filterByType, filterTarget) {
   const newSongList = filterList(songList, filterByType, filterTarget);
   const arrangedList = rearrangeList(newSongList, "title");
 
-  console.log(filterByType, filterTarget);
+  resetFilterFields();
 
   if (filterByType == "artist") {
     document.querySelector("#artistRadio").checked = true;
     highlightArtistField();
-    const titleTextField = document.querySelector("#titleTextField");
-    titleTextField.value = "";
-    const genreDropdown = document.querySelector("#genreDropdown");
-    genreDropdown.selectedIndex = 0;
     // Find the option and select it for the dropdown
     const artistDropdown = document.querySelector("#artistDropdown");
     artistDropdown.selectedIndex = indexOfOption(
       artistDropdown.options,
       filterTarget
     );
-    populateBrowseList(arrangedList);
   } else {
     document.querySelector("#genreRadio").checked = true;
     highlightGenreField();
-    const titleTextField = document.querySelector("#titleTextField");
-    titleTextField.value = "";
-    const artistDropdown = document.querySelector("#artistDropdown");
-    artistDropdown.selectedIndex = 0;
     // Find the option and select it for the dropdown
     const genreDropdown = document.querySelector("#genreDropdown");
     genreDropdown.selectedIndex = indexOfOption(
       genreDropdown.options,
       filterTarget
     );
-    populateBrowseList(arrangedList);
   }
-  document.querySelector("main#home").style.display = "none";
-  document.querySelector("main#search").style.display = "grid";
-  document.querySelector("main#playlist").style.display = "none";
-  document.querySelector("main#song").style.display = "none";
+  populateBrowseList(arrangedList);
   selectSortingButton("#orderTitle");
+  showScreen("search");
 }
 
 function indexOfOption(collection, value) {
@@ -326,6 +305,12 @@ function indexOfOption(collection, value) {
   return optionIndex;
 }
 
+function resetFilterFields() {
+  document.querySelector("#titleTextField").value = "";
+  document.querySelector("#artistDropdown").selectedIndex = 0;
+  document.querySelector("#genreDropdown").selectedIndex = 0;
+}
+
 function populateSearchScreen(songList) {
   // add all artists and genres to the dropdown menus, grey
   fetchGenres();
@@ -337,12 +322,20 @@ function populateSearchScreen(songList) {
   populateBrowseList(arrangedList);
 }
 
-function showSingleSongView(songID) {
-  populateSongViewScreen(songID, JSON.parse(localStorage.getItem("songList")));
+function showScreen(name) {
+  // hide all screens
   document.querySelector("main#home").style.display = "none";
   document.querySelector("main#search").style.display = "none";
   document.querySelector("main#playlist").style.display = "none";
-  document.querySelector("main#song").style.display = "grid";
+  document.querySelector("main#song").style.display = "none";
+
+  // show the wanted one
+  document.querySelector("main#" + name).style.display = "grid";
+}
+
+function showSingleSongView(songID) {
+  populateSongViewScreen(songID, JSON.parse(localStorage.getItem("songList")));
+  showScreen("song");
 }
 
 function populateSongViewScreen(songID, songList) {
