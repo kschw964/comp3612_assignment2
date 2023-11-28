@@ -641,30 +641,23 @@ function rearrangeList(songList, orderByType) {
 */
 function filterList(songList, filterByType, filterTarget) {
   // loop through all songs. if substring, then make deep copy and add to newList
-  const newList = [];
+  let newList;
 
-  if (filterByType == "title") {
-    for (const songs of songList) {
-      if (songs.title.includes(filterTarget)) {
-        const copiedSong = JSON.parse(JSON.stringify(songs));
-        newList.push(copiedSong);
-      }
-    }
-  } else if (filterByType == "genre") {
-    for (const songs of songList) {
-      if (songs.genre.name.includes(filterTarget)) {
-        const copiedSong = JSON.parse(JSON.stringify(songs));
-        newList.push(copiedSong);
-      }
-    }
-  } else {
-    //"artist"
-    for (const songs of songList) {
-      if (songs.artist.name.includes(filterTarget)) {
-        const copiedSong = JSON.parse(JSON.stringify(songs));
-        newList.push(copiedSong);
-      }
-    }
+  switch (filterByType) {
+    case "title":
+      newList = songList.filter((song) => song.title.includes(filterTarget));
+      break;
+
+    case "genre":
+    case "artist":
+      newList = songList.filter((song) =>
+        song[filterByType].name.includes(filterTarget)
+      );
+      break;
+
+    default:
+      newList = [];
+      console.error("filterList(): Wrong filter-type provided");
   }
 
   return newList;
