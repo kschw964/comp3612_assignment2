@@ -422,11 +422,17 @@ function populateSongViewScreen(songID, songList) {
                 foundSong.analytics.valence,
               ],
               borderWidth: 1,
+              lineTension: 0.5,
             },
           ],
         },
         options: {
           scales: {
+            r: {
+              grid: {
+                circular: true,
+              },
+            },
             y: {
               beginAtZero: true,
             },
