@@ -570,58 +570,27 @@ function rearrangeList(songList, orderByType) {
   // Deep copy using JSON methods
   const newList = JSON.parse(JSON.stringify(songList));
 
-  if (orderByType == "year") {
-    newList.sort((a, b) => {
-      if (a.year < b.year) {
-        return 1;
-      }
-      if (a.year > b.year) {
-        return -1;
-      }
-      return 0;
-    });
-  } else if (orderByType == "title") {
-    newList.sort((a, b) => {
-      if (a.title < b.title) {
-        return -1;
-      }
-      if (a.title > b.title) {
-        return 1;
-      }
-      return 0;
-    });
-  } else if (orderByType == "artist") {
-    newList.sort((a, b) => {
-      if (a.artist.name < b.artist.name) {
-        return -1;
-      }
-      if (a.artist.name > b.artist.name) {
-        return 1;
-      }
-      return 0;
-    });
-  } else if (orderByType == "genre") {
-    newList.sort((a, b) => {
-      if (a.genre.name < b.genre.name) {
-        return -1;
-      }
-      if (a.genre.name > b.genre.name) {
-        return 1;
-      }
-      return 0;
-    });
-  } else {
-    // popularity
-    newList.sort((a, b) => {
-      if (a.details.popularity < b.details.popularity) {
-        return 1;
-      }
-      if (a.details.popularity > b.details.popularity) {
-        return -1;
-      }
-      return 0;
-    });
+  switch (orderByType) {
+    case "title":
+      newList.sort((a, b) => a[orderByType].localeCompare(b[orderByType]));
+      break;
+
+    case "genre":
+    case "artist":
+      newList.sort((a, b) =>
+        a[orderByType].name.localeCompare(b[orderByType].name)
+      );
+      break;
+
+    case "year":
+      newList.sort((a, b) => a[orderByType] - b[orderByType]);
+      break;
+
+    case "popularity":
+      newList.sort((a, b) => a.details[orderByType] - b.details[orderByType]);
+      break;
   }
+
   return newList;
 }
 
