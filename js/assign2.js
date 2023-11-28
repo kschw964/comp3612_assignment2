@@ -104,13 +104,7 @@ clear = radio set to title, text/dropdowns reset, populate with default songList
     genreDropdown.selectedIndex = 0;
 
     highlightTitleField();
-    document.querySelector("#orderTitle").classList.add("buttonSelected");
-    document.querySelector("#orderArtist").classList.remove("buttonSelected");
-    document.querySelector("#orderYear").classList.remove("buttonSelected");
-    document.querySelector("#orderGenre").classList.remove("buttonSelected");
-    document
-      .querySelector("#orderPopularity")
-      .classList.remove("buttonSelected");
+    selectSortingButton("#orderTitle");
 
     const arrangedList = rearrangeList(songList, "title");
     populateBrowseList(arrangedList);
@@ -134,63 +128,35 @@ reorders browelist when reorder buttons are clicked
     const currList = getCurrentFilteredList(songList);
     const arrangedList = rearrangeList(currList, "title");
     populateBrowseList(arrangedList);
-    orderTitle.classList.add("buttonSelected");
-    document.querySelector("#orderArtist").classList.remove("buttonSelected");
-    document.querySelector("#orderYear").classList.remove("buttonSelected");
-    document.querySelector("#orderGenre").classList.remove("buttonSelected");
-    document
-      .querySelector("#orderPopularity")
-      .classList.remove("buttonSelected");
+    selectSortingButton("#orderTitle");
   });
   const orderArtist = document.querySelector("#orderArtist");
   orderArtist.addEventListener("click", function (e) {
     const currList = getCurrentFilteredList(songList);
     const arrangedList = rearrangeList(currList, "artist");
     populateBrowseList(arrangedList);
-    orderArtist.classList.add("buttonSelected");
-    document.querySelector("#orderTitle").classList.remove("buttonSelected");
-    document.querySelector("#orderYear").classList.remove("buttonSelected");
-    document.querySelector("#orderGenre").classList.remove("buttonSelected");
-    document
-      .querySelector("#orderPopularity")
-      .classList.remove("buttonSelected");
+    selectSortingButton("#orderArtist");
   });
   const orderYear = document.querySelector("#orderYear");
   orderYear.addEventListener("click", function (e) {
     const currList = getCurrentFilteredList(songList);
     const arrangedList = rearrangeList(currList, "year");
     populateBrowseList(arrangedList);
-    orderYear.classList.add("buttonSelected");
-    document.querySelector("#orderTitle").classList.remove("buttonSelected");
-    document.querySelector("#orderArtist").classList.remove("buttonSelected");
-    document.querySelector("#orderGenre").classList.remove("buttonSelected");
-    document
-      .querySelector("#orderPopularity")
-      .classList.remove("buttonSelected");
+    selectSortingButton("#orderYear");
   });
   const orderGenre = document.querySelector("#orderGenre");
   orderGenre.addEventListener("click", function (e) {
     const currList = getCurrentFilteredList(songList);
     const arrangedList = rearrangeList(currList, "genre");
     populateBrowseList(arrangedList);
-    orderGenre.classList.add("buttonSelected");
-    document.querySelector("#orderTitle").classList.remove("buttonSelected");
-    document.querySelector("#orderArtist").classList.remove("buttonSelected");
-    document.querySelector("#orderYear").classList.remove("buttonSelected");
-    document
-      .querySelector("#orderPopularity")
-      .classList.remove("buttonSelected");
+    selectSortingButton("#orderGenre");
   });
   const orderPopularity = document.querySelector("#orderPopularity");
   orderPopularity.addEventListener("click", function (e) {
     const currList = getCurrentFilteredList(songList);
     const arrangedList = rearrangeList(currList, "popularity");
     populateBrowseList(arrangedList);
-    orderPopularity.classList.add("buttonSelected");
-    document.querySelector("#orderTitle").classList.remove("buttonSelected");
-    document.querySelector("#orderArtist").classList.remove("buttonSelected");
-    document.querySelector("#orderYear").classList.remove("buttonSelected");
-    document.querySelector("#orderGenre").classList.remove("buttonSelected");
+    selectSortingButton("#orderPopularity");
   });
 
   /* 
@@ -236,6 +202,21 @@ Switch to song screen, pass the song ID to a new function that populates the son
       }, 3000);
     }
   });
+}
+
+function selectSortingButton(css_selector) {
+  if (document.querySelector(css_selector)) {
+    // remove class from all buttons
+    document.querySelector("#orderTitle").classList.remove("buttonSelected");
+    document.querySelector("#orderArtist").classList.remove("buttonSelected");
+    document.querySelector("#orderYear").classList.remove("buttonSelected");
+    document.querySelector("#orderGenre").classList.remove("buttonSelected");
+    document
+      .querySelector("#orderPopularity")
+      .classList.remove("buttonSelected");
+    // re-add the class to the selected one
+    document.querySelector(css_selector).classList.add("buttonSelected");
+  }
 }
 
 function highlightTitleField() {
@@ -349,11 +330,7 @@ function launchBrowseWithFilter(songList, filterByType, filterTarget) {
   document.querySelector("main#search").style.display = "grid";
   document.querySelector("main#playlist").style.display = "none";
   document.querySelector("main#song").style.display = "none";
-  document.querySelector("#orderTitle").classList.add("buttonSelected");
-  document.querySelector("#orderArtist").classList.remove("buttonSelected");
-  document.querySelector("#orderYear").classList.remove("buttonSelected");
-  document.querySelector("#orderGenre").classList.remove("buttonSelected");
-  document.querySelector("#orderPopularity").classList.remove("buttonSelected");
+  selectSortingButton("#orderTitle");
 }
 
 function populateSearchScreen(songList) {
