@@ -288,19 +288,10 @@ function launchBrowseWithFilter(songList, filterByType, filterTarget) {
     genreDropdown.selectedIndex = 0;
     // Find the option and select it for the dropdown
     const artistDropdown = document.querySelector("#artistDropdown");
-    const optionsCollection = artistDropdown.options;
-    const numberOfOptions = optionsCollection.length;
-    let option;
-    let optionIndex;
-    for (let i = 0; i < numberOfOptions; i++) {
-      option = optionsCollection[i];
-      if (option.value == filterTarget) {
-        optionIndex = i;
-        console.log(optionIndex);
-        break;
-      }
-    }
-    artistDropdown.selectedIndex = optionIndex;
+    artistDropdown.selectedIndex = indexOfOption(
+      artistDropdown.options,
+      filterTarget
+    );
     populateBrowseList(arrangedList);
   } else {
     document.querySelector("#genreRadio").checked = true;
@@ -311,19 +302,10 @@ function launchBrowseWithFilter(songList, filterByType, filterTarget) {
     artistDropdown.selectedIndex = 0;
     // Find the option and select it for the dropdown
     const genreDropdown = document.querySelector("#genreDropdown");
-    const optionsCollection = genreDropdown.options;
-    const numberOfOptions = optionsCollection.length;
-    let option;
-    let optionIndex;
-    for (let i = 0; i < numberOfOptions; i++) {
-      option = optionsCollection[i];
-      if (option.value == filterTarget) {
-        optionIndex = i;
-        console.log(optionIndex);
-        break;
-      }
-    }
-    genreDropdown.selectedIndex = optionIndex;
+    genreDropdown.selectedIndex = indexOfOption(
+      genreDropdown.options,
+      filterTarget
+    );
     populateBrowseList(arrangedList);
   }
   document.querySelector("main#home").style.display = "none";
@@ -331,6 +313,17 @@ function launchBrowseWithFilter(songList, filterByType, filterTarget) {
   document.querySelector("main#playlist").style.display = "none";
   document.querySelector("main#song").style.display = "none";
   selectSortingButton("#orderTitle");
+}
+
+function indexOfOption(collection, value) {
+  let optionIndex = 0;
+  for (let i = 0; i < collection.length; i++) {
+    if (collection[i].value == value) {
+      optionIndex = i;
+      break;
+    }
+  }
+  return optionIndex;
 }
 
 function populateSearchScreen(songList) {
