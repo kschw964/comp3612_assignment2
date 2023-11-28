@@ -77,23 +77,11 @@ function addfilterEventListeners(songList) {
 listens to radioButtons and greys non-selected.
 */
   let titleRadio = document.querySelector("#titleRadio");
-  titleRadio.addEventListener("click", () => {
-    document.querySelector("#titleTextField").style.opacity = "1";
-    document.querySelector("#artistDropdown").style.opacity = "0.5";
-    document.querySelector("#genreDropdown").style.opacity = "0.5";
-  });
+  titleRadio.addEventListener("click", highlightTitleField);
   let artistRadio = document.querySelector("#artistRadio");
-  artistRadio.addEventListener("click", () => {
-    document.querySelector("#titleTextField").style.opacity = "0.5";
-    document.querySelector("#artistDropdown").style.opacity = "1";
-    document.querySelector("#genreDropdown").style.opacity = "0.5";
-  });
+  artistRadio.addEventListener("click", highlightArtistField);
   let genreRadio = document.querySelector("#genreRadio");
-  genreRadio.addEventListener("click", () => {
-    document.querySelector("#titleTextField").style.opacity = "0.5";
-    document.querySelector("#artistDropdown").style.opacity = "0.5";
-    document.querySelector("#genreDropdown").style.opacity = "1";
-  });
+  genreRadio.addEventListener("click", highlightGenreField);
 
   /* 
 clear = radio set to title, text/dropdowns reset, populate with default songList 
@@ -115,9 +103,7 @@ clear = radio set to title, text/dropdowns reset, populate with default songList
     const genreDropdown = document.querySelector("#genreDropdown");
     genreDropdown.selectedIndex = 0;
 
-    document.querySelector("#titleTextField").style.opacity = "1";
-    document.querySelector("#artistDropdown").style.opacity = "0.5";
-    document.querySelector("#genreDropdown").style.opacity = "0.5";
+    highlightTitleField();
     document.querySelector("#orderTitle").classList.add("buttonSelected");
     document.querySelector("#orderArtist").classList.remove("buttonSelected");
     document.querySelector("#orderYear").classList.remove("buttonSelected");
@@ -225,31 +211,49 @@ Switch to song screen, pass the song ID to a new function that populates the son
     if (e.target.tagName === "BUTTON") {
       const songID = e.target.dataset.songId;
       addSongToPlaylist(songID);
-      
+
       //song added to playlist popup
       const addedPopUp = document.querySelector(".addedPopUp");
-      addedPopUp.classList.add('show');
+      addedPopUp.classList.add("show");
       setTimeout(() => {
-        addedPopUp.classList.remove('show');
+        addedPopUp.classList.remove("show");
       }, 5000);
     }
-      //listener for the name part of list item of song, then grabs the div ID which was set to the song ID.
-      //Switch to song screen, pass the song ID to a new function that populates the song page.  
-      if (e.target.classList.contains("songName")) {
-        const songID = e.target.dataset.songId;
-        showSingleSongView(songID);
-      }
+    //listener for the name part of list item of song, then grabs the div ID which was set to the song ID.
+    //Switch to song screen, pass the song ID to a new function that populates the song page.
+    if (e.target.classList.contains("songName")) {
+      const songID = e.target.dataset.songId;
+      showSingleSongView(songID);
+    }
 
-      if (e.target.classList.contains("elips")) {
-        const songPopUp = document.createElement("div");
-        songPopUp.innerHTML = e.target.dataset.fullSongName;
-        songPopUp.classList.add("songPopUp");
-        e.target.appendChild(songPopUp);
-        setTimeout(() => {
-          e.target.removeChild(songPopUp);
-        }, 3000);
-      }
+    if (e.target.classList.contains("elips")) {
+      const songPopUp = document.createElement("div");
+      songPopUp.innerHTML = e.target.dataset.fullSongName;
+      songPopUp.classList.add("songPopUp");
+      e.target.appendChild(songPopUp);
+      setTimeout(() => {
+        e.target.removeChild(songPopUp);
+      }, 3000);
+    }
   });
+}
+
+function highlightTitleField() {
+  document.querySelector("#titleTextField").style.opacity = "1";
+  document.querySelector("#artistDropdown").style.opacity = "0.5";
+  document.querySelector("#genreDropdown").style.opacity = "0.5";
+}
+
+function highlightArtistField() {
+  document.querySelector("#titleTextField").style.opacity = "0.5";
+  document.querySelector("#artistDropdown").style.opacity = "1";
+  document.querySelector("#genreDropdown").style.opacity = "0.5";
+}
+
+function highlightGenreField() {
+  document.querySelector("#titleTextField").style.opacity = "0.5";
+  document.querySelector("#artistDropdown").style.opacity = "0.5";
+  document.querySelector("#genreDropdown").style.opacity = "1";
 }
 
 /*
@@ -296,9 +300,7 @@ function launchBrowseWithFilter(songList, filterByType, filterTarget) {
 
   if (filterByType == "artist") {
     document.querySelector("#artistRadio").checked = true;
-    document.querySelector("#titleTextField").style.opacity = "0.5";
-    document.querySelector("#artistDropdown").style.opacity = "1";
-    document.querySelector("#genreDropdown").style.opacity = "0.5";
+    highlightArtistField();
     const titleTextField = document.querySelector("#titleTextField");
     titleTextField.value = "";
     const genreDropdown = document.querySelector("#genreDropdown");
@@ -321,9 +323,7 @@ function launchBrowseWithFilter(songList, filterByType, filterTarget) {
     populateBrowseList(arrangedList);
   } else {
     document.querySelector("#genreRadio").checked = true;
-    document.querySelector("#titleTextField").style.opacity = "0.5";
-    document.querySelector("#artistDropdown").style.opacity = "0.5";
-    document.querySelector("#genreDropdown").style.opacity = "1";
+    highlightGenreField();
     const titleTextField = document.querySelector("#titleTextField");
     titleTextField.value = "";
     const artistDropdown = document.querySelector("#artistDropdown");
@@ -361,8 +361,7 @@ function populateSearchScreen(songList) {
   genres = fetchGenres();
   artists = fetchArtists();
   // grey non selected radio buttons
-  document.querySelector("#artistDropdown").style.opacity = "0.5";
-  document.querySelector("#genreDropdown").style.opacity = "0.5";
+  highlightTitleField();
   // inittialy arrange alpabetically by title
   const arrangedList = rearrangeList(songList, "title");
   populateBrowseList(arrangedList);
