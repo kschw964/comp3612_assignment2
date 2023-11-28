@@ -393,7 +393,7 @@ function populateSongViewScreen(songID, songList) {
         createTextListItem(`Loudness: ${foundSong.details.loudness}`),
         createTextListItem(`Energy: ${foundSong.analytics.energy}`),
         createTextListItem(`Danceability: ${foundSong.analytics.danceability}`),
-        createTextListItem(`Liveness: ${foundSong.analytics.acousticness}`),
+        createTextListItem(`Liveness: ${foundSong.analytics.liveness}`),
         createTextListItem(`Valence: ${foundSong.analytics.valence}`),
         createTextListItem(`Acousticness: ${foundSong.analytics.acousticness}`),
         createTextListItem(`Speechiness: ${foundSong.analytics.speechiness}`)
@@ -418,7 +418,7 @@ function populateSongViewScreen(songID, songList) {
                 foundSong.analytics.energy,
                 foundSong.analytics.speechiness,
                 foundSong.analytics.acousticness,
-                foundSong.analytics.acousticness,
+                foundSong.analytics.liveness,
                 foundSong.analytics.valence,
               ],
               borderWidth: 1,
