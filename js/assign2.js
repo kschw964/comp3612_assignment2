@@ -366,29 +366,18 @@ function populateSongViewScreen(songID, songList) {
 
       const foundSong = songList.find((currSong) => currSong.song_id == songID);
 
-      const songTitleItem = document.createElement("li");
-      songTitleItem.innerHTML = `Title: ${foundSong.title}`;
-      songInfoList.appendChild(songTitleItem);
-
-      const artistItem = document.createElement("li");
-      artistItem.innerHTML = `Artist: ${foundSong.artist.name}`;
-      songInfoList.appendChild(artistItem);
-
       const artistId = foundSong.artist.id;
       const foundArtist = artists.find(
         (currArtist) => currArtist.id == artistId
       );
-      const artistTypeItem = document.createElement("li");
-      artistTypeItem.innerHTML = `Artist Type: ${foundArtist.type}`;
-      songInfoList.appendChild(artistTypeItem);
 
-      const genreItem = document.createElement("li");
-      genreItem.innerHTML = `Genre: ${foundSong.genre.name}`;
-      songInfoList.appendChild(genreItem);
-
-      const yearItem = document.createElement("li");
-      yearItem.innerHTML = `Year: ${foundSong.year}`;
-      songInfoList.appendChild(yearItem);
+      songInfoList.append(
+        createTextListItem(`Title: ${foundSong.title}`),
+        createTextListItem(`Artist: ${foundSong.artist.name}`),
+        createTextListItem(`Artist Type: ${foundArtist.type}`),
+        createTextListItem(`Genre: ${foundSong.genre.name}`),
+        createTextListItem(`Year: ${foundSong.year}`)
+      );
 
       const durationItem = document.createElement("li");
       const minutes = Math.floor(foundSong.details.duration / 60);
@@ -398,41 +387,17 @@ function populateSongViewScreen(songID, songList) {
       durationItem.innerHTML = `Duration: ${convertedDuration}`;
       songInfoList.appendChild(durationItem);
 
-      const bpmItem = document.createElement("li");
-      bpmItem.innerHTML = `BPM: ${foundSong.details.bpm}`;
-      songAnalysisList.appendChild(bpmItem);
-
-      const popularityItem = document.createElement("li");
-      popularityItem.innerHTML = `Popularity: ${foundSong.details.popularity}`;
-      songAnalysisList.appendChild(popularityItem);
-
-      const loudnessItem = document.createElement("li");
-      loudnessItem.innerHTML = `Loudness: ${foundSong.details.loudness}`;
-      songAnalysisList.appendChild(loudnessItem);
-
-      const energyItem = document.createElement("li");
-      energyItem.innerHTML = `Energy: ${foundSong.analytics.energy}`;
-      songAnalysisList.appendChild(energyItem);
-
-      const danceabilityItem = document.createElement("li");
-      danceabilityItem.innerHTML = `Danceability: ${foundSong.analytics.danceability}`;
-      songAnalysisList.appendChild(danceabilityItem);
-
-      const livenessItem = document.createElement("li");
-      livenessItem.innerHTML = `Liveness: ${foundSong.analytics.acousticness}`;
-      songAnalysisList.appendChild(livenessItem);
-
-      const valenceItem = document.createElement("li");
-      valenceItem.innerHTML = `Valence: ${foundSong.analytics.valence}`;
-      songAnalysisList.appendChild(valenceItem);
-
-      const acousticnessItem = document.createElement("li");
-      acousticnessItem.innerHTML = `Acousticness: ${foundSong.analytics.acousticness}`;
-      songAnalysisList.appendChild(acousticnessItem);
-
-      const speechinessItem = document.createElement("li");
-      speechinessItem.innerHTML = `Speechiness: ${foundSong.analytics.speechiness}`;
-      songAnalysisList.appendChild(speechinessItem);
+      songAnalysisList.append(
+        createTextListItem(`BPM: ${foundSong.details.bpm}`),
+        createTextListItem(`Popularity: ${foundSong.details.popularity}`),
+        createTextListItem(`Loudness: ${foundSong.details.loudness}`),
+        createTextListItem(`Energy: ${foundSong.analytics.energy}`),
+        createTextListItem(`Danceability: ${foundSong.analytics.danceability}`),
+        createTextListItem(`Liveness: ${foundSong.analytics.acousticness}`),
+        createTextListItem(`Valence: ${foundSong.analytics.valence}`),
+        createTextListItem(`Acousticness: ${foundSong.analytics.acousticness}`),
+        createTextListItem(`Speechiness: ${foundSong.analytics.speechiness}`)
+      );
 
       new Chart(radarChart, {
         type: "radar",
@@ -583,6 +548,12 @@ function populateBrowseList(songList) {
 
     browseList.appendChild(newLi);
   }
+}
+
+function createTextListItem(text) {
+  const li = document.createElement("li");
+  li.textContent = text;
+  return li;
 }
 
 /* rearrangeList
