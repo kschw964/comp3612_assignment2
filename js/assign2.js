@@ -396,7 +396,7 @@ function populateSongViewScreen(songID, songList) {
                 foundSong.analytics.valence,
               ],
               borderWidth: 1,
-              lineTension: 0.5,
+              lineTension: 0.3,
             },
           ],
         },
