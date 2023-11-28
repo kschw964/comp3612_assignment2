@@ -79,21 +79,9 @@ clear = radio set to title, text/dropdowns reset, populate with default songList
 */
   const clearButton = document.querySelector("#clearButton");
   clearButton.addEventListener("click", () => {
-    let titleRadio = document.querySelector("#titleRadio");
-    titleRadio.checked = true;
+    resetFilterFields();
 
-    let filterRadioSelected = document.querySelector(
-      'input[name="filterMethod"]'
-    );
-    filterRadioSelected.value = 0;
-
-    const titleTextField = document.querySelector("#titleTextField");
-    titleTextField.value = "";
-    const artistDropdown = document.querySelector("#artistDropdown");
-    artistDropdown.selectedIndex = 0;
-    const genreDropdown = document.querySelector("#genreDropdown");
-    genreDropdown.selectedIndex = 0;
-
+    document.querySelector("#titleRadio").checked = true;
     highlightTitleField();
     selectSortingButton("#orderTitle");
 
