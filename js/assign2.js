@@ -356,21 +356,15 @@ function populateSongViewScreen(songID, songList) {
   fetch("./json/artists.json")
     .then((response) => response.json())
     .then((artists) => {
-      //clear previous song
-      const songInfoList = document.querySelector("#songInfoList");
-      songInfoList.innerHTML = "";
-      const songAnalysisList = document.querySelector("#songAnalysisList");
-      songAnalysisList.innerHTML = "";
-      const radarChart = document.querySelector("#radarChart");
-      radarChart.innerHTML = "";
-
       const foundSong = songList.find((currSong) => currSong.song_id == songID);
 
-      const artistId = foundSong.artist.id;
       const foundArtist = artists.find(
-        (currArtist) => currArtist.id == artistId
+        (currArtist) => currArtist.id == foundSong.artist.id
       );
 
+      // clear Song Info List, then populate it again
+      const songInfoList = document.querySelector("#songInfoList");
+      songInfoList.innerHTML = "";
       songInfoList.append(
         createTextListItem(`Title: ${foundSong.title}`),
         createTextListItem(`Artist: ${foundSong.artist.name}`),
@@ -379,14 +373,17 @@ function populateSongViewScreen(songID, songList) {
         createTextListItem(`Year: ${foundSong.year}`)
       );
 
-      const durationItem = document.createElement("li");
       const minutes = Math.floor(foundSong.details.duration / 60);
       const remainingSeconds = foundSong.details.duration % 60;
       const formattedSeconds = String(remainingSeconds).padStart(2, "0");
-      convertedDuration = `${minutes}:${formattedSeconds}`;
-      durationItem.innerHTML = `Duration: ${convertedDuration}`;
-      songInfoList.appendChild(durationItem);
+      const convertedDuration = `${minutes}:${formattedSeconds}`;
+      songInfoList.appendChild(
+        createTextListItem(`Duration: ${convertedDuration}`)
+      );
 
+      // clear Analysis Data List, then populate it again
+      const songAnalysisList = document.querySelector("#songAnalysisList");
+      songAnalysisList.innerHTML = "";
       songAnalysisList.append(
         createTextListItem(`BPM: ${foundSong.details.bpm}`),
         createTextListItem(`Popularity: ${foundSong.details.popularity}`),
@@ -399,6 +396,9 @@ function populateSongViewScreen(songID, songList) {
         createTextListItem(`Speechiness: ${foundSong.analytics.speechiness}`)
       );
 
+      // clear Radar-Chart, then populate it again
+      const radarChart = document.querySelector("#radarChart");
+      radarChart.innerHTML = "";
       new Chart(radarChart, {
         type: "radar",
         data: {
