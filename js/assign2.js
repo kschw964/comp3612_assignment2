@@ -120,44 +120,7 @@ arranges them alphabetically per given category
     populateBrowseList(currList);
   });
 
-  /*
-reorders browelist when reorder buttons are clicked
-*/
-  const orderTitle = document.querySelector("#orderTitle");
-  orderTitle.addEventListener("click", function (e) {
-    const currList = getCurrentFilteredList(songList);
-    const arrangedList = rearrangeList(currList, "title");
-    populateBrowseList(arrangedList);
-    selectSortingButton("#orderTitle");
-  });
-  const orderArtist = document.querySelector("#orderArtist");
-  orderArtist.addEventListener("click", function (e) {
-    const currList = getCurrentFilteredList(songList);
-    const arrangedList = rearrangeList(currList, "artist");
-    populateBrowseList(arrangedList);
-    selectSortingButton("#orderArtist");
-  });
-  const orderYear = document.querySelector("#orderYear");
-  orderYear.addEventListener("click", function (e) {
-    const currList = getCurrentFilteredList(songList);
-    const arrangedList = rearrangeList(currList, "year");
-    populateBrowseList(arrangedList);
-    selectSortingButton("#orderYear");
-  });
-  const orderGenre = document.querySelector("#orderGenre");
-  orderGenre.addEventListener("click", function (e) {
-    const currList = getCurrentFilteredList(songList);
-    const arrangedList = rearrangeList(currList, "genre");
-    populateBrowseList(arrangedList);
-    selectSortingButton("#orderGenre");
-  });
-  const orderPopularity = document.querySelector("#orderPopularity");
-  orderPopularity.addEventListener("click", function (e) {
-    const currList = getCurrentFilteredList(songList);
-    const arrangedList = rearrangeList(currList, "popularity");
-    populateBrowseList(arrangedList);
-    selectSortingButton("#orderPopularity");
-  });
+  addSortButtonListeners(songList);
 
   /* 
 listener for the name part of list item of song, then grabs the div ID which was set to the song ID.
@@ -202,6 +165,43 @@ Switch to song screen, pass the song ID to a new function that populates the son
       }, 3000);
     }
   });
+}
+
+function addSortButtonListeners(songList) {
+  /*
+  reorders browelist when reorder buttons are clicked
+  */
+  const orderTitle = document.querySelector("#orderTitle");
+  orderTitle.addEventListener("click", function (e) {
+    reorderBrowseList(songList, "title");
+    selectSortingButton("#orderTitle");
+  });
+  const orderArtist = document.querySelector("#orderArtist");
+  orderArtist.addEventListener("click", function (e) {
+    reorderBrowseList(songList, "artist");
+    selectSortingButton("#orderArtist");
+  });
+  const orderYear = document.querySelector("#orderYear");
+  orderYear.addEventListener("click", function (e) {
+    reorderBrowseList(songList, "year");
+    selectSortingButton("#orderYear");
+  });
+  const orderGenre = document.querySelector("#orderGenre");
+  orderGenre.addEventListener("click", function (e) {
+    reorderBrowseList(songList, "genre");
+    selectSortingButton("#orderGenre");
+  });
+  const orderPopularity = document.querySelector("#orderPopularity");
+  orderPopularity.addEventListener("click", function (e) {
+    reorderBrowseList(songList, "popularity");
+    selectSortingButton("#orderPopularity");
+  });
+}
+
+function reorderBrowseList(songList, orderByType) {
+  const currList = getCurrentFilteredList(songList);
+  const arrangedList = rearrangeList(currList, orderByType);
+  populateBrowseList(arrangedList);
 }
 
 function selectSortingButton(css_selector) {
