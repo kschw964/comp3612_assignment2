@@ -151,7 +151,6 @@ orderTitle.addEventListener("click", function(e){
   document.querySelector("#orderYear").classList.remove("buttonSelected");
   document.querySelector("#orderGenre").classList.remove("buttonSelected");
   document.querySelector("#orderPopularity").classList.remove("buttonSelected");
-
 });
 const orderArtist = document.querySelector("#orderArtist");
 orderArtist.addEventListener("click", function(e){
@@ -198,25 +197,36 @@ orderPopularity.addEventListener("click", function(e){
   document.querySelector("#orderGenre").classList.remove("buttonSelected");
 });
 
-  /* 
-listener for the name part of list item of song, then grabs the div ID which was set to the song ID.
-Switch to song screen, pass the song ID to a new function that populates the song page.  
-*/
-  const browseSearchList = document.querySelector("#browseList");
-  browseSearchList.addEventListener("click", function (e) {
-    if (e.target.classList == "songName") {
-      const songID = e.target.dataset.songId;
-      showSingleSongView(songID);
-    }
-  });
-
   // 'add to playlist button' for each li
   const browseList = document.querySelector("#browseList");
   browseList.addEventListener("click", function (e) {
     if (e.target.tagName === "BUTTON") {
       const songID = e.target.dataset.songId;
       addSongToPlaylist(songID);
+      
+      //song added to playlist popup
+      const addedPopUp = document.querySelector(".addedPopUp");
+      addedPopUp.classList.add('show');
+      setTimeout(() => {
+        addedPopUp.classList.remove('show');
+      }, 5000);
     }
+      //listener for the name part of list item of song, then grabs the div ID which was set to the song ID.
+      //Switch to song screen, pass the song ID to a new function that populates the song page.  
+      if (e.target.classList.contains("songName")) {
+        const songID = e.target.dataset.songId;
+        showSingleSongView(songID);
+      }
+
+      if (e.target.classList.contains("elips")) {
+        const songPopUp = document.createElement("div");
+        songPopUp.innerHTML = e.target.dataset.fullSongName;
+        songPopUp.classList.add("songPopUp");
+        e.target.appendChild(songPopUp);
+        setTimeout(() => {
+          e.target.removeChild(songPopUp);
+        }, 3000);
+      }
   });
 }
 
@@ -541,7 +551,7 @@ function populateBrowseList(songList) {
       songName.innerHTML = songs.title.substring(0, 25); 
       const elips = document.createElement("span");
       elips.classList.add("elips");
-      elips.innerHTML = "...";
+      elips.innerHTML = "&hellip;";
       elips.dataset.fullSongName = songs.title;
       songName.appendChild(elips);
 

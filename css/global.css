@@ -215,10 +215,17 @@ footer a {
 
 /* Browse/Search Page CSS */
 
+/* #search{
+display: inline;
+} */
+
 #browseList{
   list-style-type: none;
   padding-left: 20px;
+  max-height: 500px; /* Set your desired maximum height */
+  overflow: auto;    /* Add a scrollbar when content overflows the container */
 }
+
 
 #orderTitle {
   margin-left: 100px;
@@ -237,13 +244,15 @@ footer a {
 }
 .buttonSelected{
 
-  color: #ff0000; /* Set the color using a hex code, RGB value, or color name */
+  color: var(--colorPrimary); /* Set the color using a hex code, RGB value, or color name */
+  background-color: var(--colorSecondary);
 
 }
 
 .songName {
   display: inline-block;
   width: 240px; 
+  cursor: pointer;
 }
 .artistName {
   display: inline-block;
@@ -262,7 +271,7 @@ footer a {
   width: 70px; 
 }
 
-.songPopup {
+.songPopUp {
   /* display: none; */
   position: absolute;
   background-color: #f9f9f9;
@@ -271,3 +280,24 @@ footer a {
   z-index: 1;
 }
 
+.addedPopUp{
+  display: block;
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 16px;
+  background-color: var(--colorSecondary);
+  color: #fff;
+  transition: opacity 0.5s ease-in-out; /* Apply a transition to the opacity property */
+  opacity: 0;
+
+}
+
+.addedPopUp.show {
+  opacity: 1;
+}
+
+.pointerCursor {
+  cursor: pointer;
+}
