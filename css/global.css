@@ -234,6 +234,10 @@ footer a {
   list-style-type: none;
   padding-left: 0px;
   padding-right: 0px;
+  margin-top: 0px;
+}
+#filterList h1{
+  border-radius: 16px;
 }
 #filterList li {
   padding-left: 50px;
@@ -242,10 +246,12 @@ footer a {
 #resultsBox {
   background-color: var(--colorSurface);
   height: 100%;
-  width: 70%;
+  width: 80%;
   box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
 }
 #resultsBox h1 {
+  border-radius: 16px;
+
   margin-bottom: 16px;
 }
 #resultsBox > button:nth-of-type(1),
@@ -278,16 +284,16 @@ footer a {
   margin-left: 70px;
 }
 #orderArtist {
-  margin-left: 100px;
+  margin-left: 150px;
 }
 #orderYear {
   margin-left: 50px;
 }
 #orderGenre {
-  margin-left: 60px;
+  margin-left: 40px;
 }
 #orderPopularity {
-  margin-left: 40px;
+  margin-left: 10px;
 }
 #resultsBox > button.buttonSelected {
   color: white;
@@ -316,7 +322,7 @@ footer a {
   width: 70px;
 }
 .addToPlayListButton {
-  margin: 0px;
+  margin-right: 0px;
   padding: 0px;
 }
 
@@ -356,6 +362,7 @@ footer a {
   background-color: var(--colorSecondary);
   color: #fff;
   padding: 10px;
+
 }
 
 #songInfoList {
