@@ -121,12 +121,15 @@ arranges them alphabetically per given category
     }
 
     if (e.target.classList.contains("elips")) {
-      const songPopUp = document.createElement("div");
-      songPopUp.innerHTML = e.target.dataset.fullSongName;
-      songPopUp.classList.add("songPopUp");
-      e.target.appendChild(songPopUp);
+      const songName = e.target.dataset.fullSongName;
+      const songPopUp = document.createTextNode(
+        songName.substring(25, songName.length)
+      );
+      e.target.classList.add("hidden");
+      e.target.parentNode.appendChild(songPopUp);
       setTimeout(() => {
-        e.target.removeChild(songPopUp);
+        e.target.parentNode.removeChild(songPopUp);
+        e.target.classList.remove("hidden");
       }, 3000);
     }
   });
@@ -312,10 +315,6 @@ function showSingleSongView(songID) {
   showScreen("song");
 }
 
-
-
-
-
 function populateSongViewScreen(songID, songList) {
   fetch("./json/artists.json")
     .then((response) => response.json())
@@ -364,62 +363,59 @@ function populateSongViewScreen(songID, songList) {
       const radarCanvas = document.querySelector("#radarCanvas");
 
       const prevChart = Chart.getChart(radarCanvas);
-      if( typeof prevChart !== "undefined" ){
+      if (typeof prevChart !== "undefined") {
         prevChart.destroy();
       }
-      
-        new Chart(radarCanvas, {
-          type: "radar",
-          data: {
-            labels: [
-              "Danceability",
-              "Energy",
-              "Speechiness",
-              "Acousticness",
-              "Liveness",
-              "Valence",
-            ],
-            datasets: [
-              {
-                label: "",
-                data: [
-                  foundSong.analytics.danceability,
-                  foundSong.analytics.energy,
-                  foundSong.analytics.speechiness,
-                  foundSong.analytics.acousticness,
-                  foundSong.analytics.liveness,
-                  foundSong.analytics.valence,
-                ],
-                borderWidth: 1,
-                lineTension: 0.5,
-              },
-            ],
-          },
-          options: {
-            plugins:{
-              legend: {
-                display: false
-              }
+
+      new Chart(radarCanvas, {
+        type: "radar",
+        data: {
+          labels: [
+            "Danceability",
+            "Energy",
+            "Speechiness",
+            "Acousticness",
+            "Liveness",
+            "Valence",
+          ],
+          datasets: [
+            {
+              label: "",
+              data: [
+                foundSong.analytics.danceability,
+                foundSong.analytics.energy,
+                foundSong.analytics.speechiness,
+                foundSong.analytics.acousticness,
+                foundSong.analytics.liveness,
+                foundSong.analytics.valence,
+              ],
+              borderWidth: 1,
+              lineTension: 0.5,
             },
-            scales: {
-              r: {
-                grid: {
-                  circular: true,
-                },
-              },
-              y: {
-                beginAtZero: true,
-              },
+          ],
+        },
+        options: {
+          plugins: {
+            legend: {
+              display: false,
             },
           },
-        });
-    
-      })
+          scales: {
+            r: {
+              grid: {
+                circular: true,
+              },
+            },
+            y: {
+              beginAtZero: true,
+            },
+          },
+        },
+      });
+    })
     .catch((error) => {
       console.error("Chart creation or Artist.JSON fetch failed", error);
     });
-
-
 }
 
 /* 
