@@ -27,6 +27,15 @@ section {
   border-radius: 16px;
 }
 
+h1 {
+  margin: 0;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  text-align: center;
+  background-color: var(--colorSecondary);
+  color: white;
+}
+
 /* Header */
 header {
   background-color: var(--colorPrimary);
@@ -85,15 +94,6 @@ main#home {
   display: grid;
   grid-template: 1fr / 1fr 1fr 1fr;
   gap: 16px;
-}
-
-main#home section h1 {
-  margin: 0;
-  padding-top: 16px;
-  padding-bottom: 16px;
-  text-align: center;
-  background-color: var(--colorSecondary);
-  color: white;
 }
 
 main#home section ul {
@@ -217,119 +217,110 @@ footer a {
 #search {
   display: none;
   grid-template-columns: 1fr 2fr;
-  grid-column-gap: 20px; 
+  grid-column-gap: 20px;
   padding-left: 0px;
   margin-left: 0px;
 }
-#filterBox{
-  background-color: var(--colorPrimary);
+#filterBox {
+  background-color: var(--colorSurface);
   height: 50%;
   width: 60%;
   border-radius: 16px;
-  justify-self: end; 
+  justify-self: end;
   box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
 }
-#filterBox * {
-  margin: 5px;
-  
+
+#filterList {
+  list-style-type: none;
+  padding-left: 0px;
+  padding-right: 0px;
 }
-#filterList{
-list-style-type: none;
-padding-left: 0px;
-padding-right: 0px;
-}
-#filterList li{
+#filterList li {
   padding-left: 50px;
   padding-top: 20px;
 }
-#filterList h3{
-  color: white;
-  background-color: #022b3a;
-  padding: 20px;
-  margin-top: 20px;
-  margin-left: 0px;
-  margin-right: 0px;
-  text-align: center;
-}
-#resultsBox{
-  background-color: var(--colorPrimary);
+#resultsBox {
+  background-color: var(--colorSurface);
   height: 100%;
   width: 70%;
   box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
 }
-#search h2{
-  color: white;
-  background-color: #022b3a;
-  padding: 20px;
-  padding-right: 80px;
-  margin-left: 5px;
-  margin-right: 5px;
-  text-align: center;  
+#resultsBox h1 {
+  margin-bottom: 16px;
 }
-#browseList{
-  list-style-type: none;
-  padding-left: 50px;
-  height: 500px; 
-  width: 100%;
-  overflow-y: scroll;  
+#resultsBox > button:nth-of-type(1),
+#resultsBox > button:nth-of-type(2),
+#resultsBox > button:nth-of-type(3),
+#resultsBox > button:nth-of-type(4),
+#resultsBox > button:nth-of-type(5) {
+  cursor: pointer;
+  padding: 8px 32px;
+  border: none;
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, 0.2);
 }
 
-#browseList li{
+#browseList {
+  list-style-type: none;
+  padding-left: 50px;
+  height: 500px;
+  width: 100%;
+  overflow-y: scroll;
+}
+
+#browseList li {
   padding: 5px;
   margin: 5px;
-  border-bottom: 1px solid black; 
+  border-bottom: 1px solid black;
 }
 
 #orderTitle {
-  margin-left: 100px;
-}
-#orderArtist {
-  margin-left: 180px;
-}
-#orderYear {
   margin-left: 70px;
 }
-#orderGenre {
+#orderArtist {
   margin-left: 100px;
 }
-#orderPopularity{
+#orderYear {
+  margin-left: 50px;
+}
+#orderGenre {
+  margin-left: 60px;
+}
+#orderPopularity {
   margin-left: 40px;
 }
-.buttonSelected{
-  color: var(--colorPrimary);
+#resultsBox > button.buttonSelected {
+  color: white;
   background-color: var(--colorSecondary);
 }
 
 .songName {
   display: inline-block;
-  width: 240px; 
+  width: 240px;
   cursor: pointer;
 }
 .artistName {
   display: inline-block;
-  width: 180px; 
+  width: 180px;
 }
 .songYear {
   display: inline-block;
-  width: 100px; 
+  width: 100px;
 }
 .genreName {
   display: inline-block;
-  width: 170px; 
+  width: 170px;
 }
-.popularity{
+.popularity {
   display: inline-block;
-  width: 70px; 
+  width: 70px;
 }
-.addToPlayListButton{
+.addToPlayListButton {
   margin: 0px;
   padding: 0px;
 }
-.songPopUp {
-  padding: 10px;
-  display: block;
-}
-.addedPopUp{
+
+.addedPopUp {
   display: block;
   position: fixed;
   bottom: 0;
@@ -338,7 +329,7 @@ padding-right: 0px;
   padding: 16px;
   background-color: var(--colorSecondary);
   color: #fff;
-  transition: opacity 0.5s ease-in-out; 
+  transition: opacity 0.5s ease-in-out;
   opacity: 0;
 }
 .addedPopUp.show {
@@ -348,60 +339,51 @@ padding-right: 0px;
   cursor: pointer;
 }
 
-
 #song {
   display: none;
   grid-template-columns: 1fr 2fr;
-  grid-column-gap: 20px; 
+  grid-column-gap: 20px;
   height: 770px;
 }
-#songInfo{
-  background-color: var(--colorPrimary);
+#songInfo {
+  background-color: var(--colorSurface);
   justify-self: end;
   width: 40%;
   height: 90%;
   text-align: center;
 }
-#songInfo h3{
+#songInfo h3 {
   background-color: var(--colorSecondary);
   color: #fff;
   padding: 10px;
 }
 
-#songInfoList{
+#songInfoList {
   list-style-type: none;
   margin-right: 40px;
 }
-#songInfoList li{
-  border: 1px solid var(--colorSecondary);  
+#songInfoList li,
+#songAnalysisList li {
+  border: 1px solid var(--colorSecondary);
   padding: 5px;
 }
-#songAnalysisList{
+#songAnalysisList {
   list-style-type: none;
   margin-right: 40px;
   border: black;
 }
-.songDetails{
+.songDetails {
   font-weight: bold;
 }
-#songAnalysisList li{
-  border: 1px solid var(--colorSecondary); 
-  padding: 5px;
-}
 
-#radarSection{
-  background-color: var(--colorPrimary);
+#radarSection {
+  background-color: var(--colorSurface);
   width: 55%;
   height: 100%;
   text-align: center;
 }
-#radarSection h2{
-  background-color: var(--colorSecondary);
-  color: #fff;
-  padding: 10px;
-}
 
-#radarCanvas{
+#radarCanvas {
   background-color: white;
   width: 100%;
   height: 100px;
