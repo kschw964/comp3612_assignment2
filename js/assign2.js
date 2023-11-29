@@ -122,18 +122,6 @@ arranges them alphabetically per given category
 
   addSortButtonListeners(songList);
 
-  /* 
-listener for the name part of list item of song, then grabs the div ID which was set to the song ID.
-Switch to song screen, pass the song ID to a new function that populates the song page.  
-*/
-  const browseSearchList = document.querySelector("#browseList");
-  browseSearchList.addEventListener("click", function (e) {
-    if (e.target.classList == "songName") {
-      const songID = e.target.dataset.songId;
-      showSingleSongView(songID);
-    }
-  });
-
   // 'add to playlist button' for each li
   const browseList = document.querySelector("#browseList");
   browseList.addEventListener("click", function (e) {
@@ -296,7 +284,6 @@ function launchBrowseWithFilter(songList, filterByType, filterTarget) {
       option = optionsCollection[i];
       if (option.value == filterTarget) {
         optionIndex = i;
-        console.log(optionIndex);
         break;
       }
     }
@@ -352,6 +339,7 @@ function showSingleSongView(songID) {
   document.querySelector("main#song").style.display = "grid";
 }
 
+
 function populateSongViewScreen(songID, songList) {
   fetch("./json/artists.json")
     .then((response) => response.json())
@@ -397,52 +385,79 @@ function populateSongViewScreen(songID, songList) {
       );
 
       // clear Radar-Chart, then populate it again
-      const radarChart = document.querySelector("#radarChart");
-      radarChart.innerHTML = "";
-      new Chart(radarChart, {
-        type: "radar",
-        data: {
-          labels: [
-            "Danceability",
-            "Energy",
-            "Speechiness",
-            "Acousticness",
-            "Liveness",
-            "Valence",
-          ],
-          datasets: [
-            {
-              label: "",
-              data: [
-                foundSong.analytics.danceability,
-                foundSong.analytics.energy,
-                foundSong.analytics.speechiness,
-                foundSong.analytics.acousticness,
-                foundSong.analytics.liveness,
-                foundSong.analytics.valence,
-              ],
-              borderWidth: 1,
-              lineTension: 0.5,
+      const radarCanvas = document.querySelector("#radarCanvas");
+
+      const prevChart = Chart.getChart(radarCanvas);
+      if( typeof prevChart !== "undefined" ){
+        prevChart.destroy();
+      }
+      
+        new Chart(radarCanvas, {
+          type: "radar",
+          data: {
+            labels: [
+              "Danceability",
+              "Energy",
+              "Speechiness",
+              "Acousticness",
+              "Liveness",
+              "Valence",
+            ],
+            datasets: [
+              {
+                label: "",
+                data: [
+                  foundSong.analytics.danceability,
+                  foundSong.analytics.energy,
+                  foundSong.analytics.speechiness,
+                  foundSong.analytics.acousticness,
+                  foundSong.analytics.liveness,
+                  foundSong.analytics.valence,
+                ],
+                borderWidth: 1,
+                lineTension: 0.5,
+              },
+            ],
+          },
+          options: {
+            plugins:{
+              legend: {
+                display: false
+              }
             },
-          ],
-        },
-        options: {
-          scales: {
-            r: {
-              grid: {
-                circular: true,
+            scales: {
+              r: {
+                grid: {
+                  circular: true,
+                },
+              },
+              y: {
+                beginAtZero: true,
               },
             },
-            y: {
-              beginAtZero: true,
-            },
           },
-        },
-      });
-    })
+        });
+    
+      })
     .catch((error) => {
-      console.error("Error fetching artists", error);
+      console.error("Chart creation or Artist.JSON fetch failed", error);
     });
+
+
+}
+// for radarChart
+function addData(chart, newData) {
+  chart.data.datasets.forEach((dataset) => {
+      dataset.data.push(newData);
+  });
+  chart.update();
+}
+function removeData(chart) {
+  // chart.data.labels.pop();
+  chart.data.datasets.forEach((dataset) => {
+      dataset.data.pop();
+  });
+  chart.update();
 }
 
 /* 
@@ -550,6 +565,7 @@ function createTextSpanWithClass(text, className) {
 
 function createTextListItem(text) {
   const li = document.createElement("li");
+  li.classList.add("songDetails");
   li.textContent = text;
   return li;
 }

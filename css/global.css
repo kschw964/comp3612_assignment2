@@ -214,42 +214,61 @@ footer a {
 }
 
 /* Browse/Search Page */
-
 #search {
   display: none;
   grid-template-columns: 1fr 2fr;
   grid-column-gap: 20px; 
-
+  padding-left: 0px;
+  margin-left: 0px;
 }
 #filterBox{
   background-color: var(--colorPrimary);
-  height: 60%;
+  height: 50%;
   width: 60%;
   border-radius: 16px;
   justify-self: end; 
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
 }
 #filterBox * {
   margin: 5px;
+  
 }
 #filterList{
 list-style-type: none;
+padding-left: 0px;
+padding-right: 0px;
 }
-
+#filterList li{
+  padding-left: 50px;
+  padding-top: 20px;
+}
+#filterList h3{
+  color: white;
+  background-color: #022b3a;
+  padding: 20px;
+  margin-top: 20px;
+  margin-left: 0px;
+  margin-right: 0px;
+  text-align: center;
+}
 #resultsBox{
   background-color: var(--colorPrimary);
   height: 100%;
   width: 70%;
-
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
 }
 #search h2{
+  color: white;
+  background-color: #022b3a;
   padding: 20px;
-  text-align: center;
-
+  padding-right: 80px;
+  margin-left: 5px;
+  margin-right: 5px;
+  text-align: center;  
 }
-
 #browseList{
   list-style-type: none;
-  padding-left: 20px;
+  padding-left: 50px;
   height: 500px; 
   width: 100%;
   overflow-y: scroll;  
@@ -306,16 +325,10 @@ list-style-type: none;
   margin: 0px;
   padding: 0px;
 }
-
 .songPopUp {
-  /* display: none; */
-  position: absolute;
-  background-color: #f9f9f9;
-  border: 1px solid #ccc;
   padding: 10px;
-  z-index: 1;
+  display: block;
 }
-
 .addedPopUp{
   display: block;
   position: fixed;
@@ -327,16 +340,69 @@ list-style-type: none;
   color: #fff;
   transition: opacity 0.5s ease-in-out; 
   opacity: 0;
-
 }
-
 .addedPopUp.show {
   opacity: 1;
 }
-
 .pointerCursor {
   cursor: pointer;
 }
 
 
+#song {
+  display: none;
+  grid-template-columns: 1fr 2fr;
+  grid-column-gap: 20px; 
+  height: 770px;
+}
+#songInfo{
+  background-color: var(--colorPrimary);
+  justify-self: end;
+  width: 40%;
+  height: 90%;
+  text-align: center;
+}
+#songInfo h3{
+  background-color: var(--colorSecondary);
+  color: #fff;
+  padding: 10px;
+}
 
+#songInfoList{
+  list-style-type: none;
+  margin-right: 40px;
+}
+#songInfoList li{
+  border: 1px solid var(--colorSecondary);  
+  padding: 5px;
+}
+#songAnalysisList{
+  list-style-type: none;
+  margin-right: 40px;
+  border: black;
+}
+.songDetails{
+  font-weight: bold;
+}
+#songAnalysisList li{
+  border: 1px solid var(--colorSecondary); 
+  padding: 5px;
+}
+
+#radarSection{
+  background-color: var(--colorPrimary);
+  width: 55%;
+  height: 100%;
+  text-align: center;
+}
+#radarSection h2{
+  background-color: var(--colorSecondary);
+  color: #fff;
+  padding: 10px;
+}
+
+#radarCanvas{
+  background-color: white;
+  width: 100%;
+  height: 100px;
+}
