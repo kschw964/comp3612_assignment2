@@ -603,7 +603,9 @@ function filterList(songList, filterByType, filterTarget) {
       console.error("filterList(): Wrong filter-type provided");
   }
 
-  return newList;
+  orderedByTitle = rearrangeList(newList, "title");
+
+  return orderedByTitle;
 }
 
 function populateHomeScreen(songList) {
