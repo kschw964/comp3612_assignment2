@@ -557,11 +557,11 @@ function rearrangeList(songList, orderByType) {
       break;
 
     case "year":
-      newList.sort((a, b) => a[orderByType] - b[orderByType]);
+      newList.sort((a, b) => b[orderByType] - a[orderByType]);
       break;
 
     case "popularity":
-      newList.sort((a, b) => a.details[orderByType] - b.details[orderByType]);
+      newList.sort((a, b) => b.details[orderByType] - a.details[orderByType]);
       break;
   }
 
