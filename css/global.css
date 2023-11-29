@@ -228,6 +228,7 @@ footer a {
   border-radius: 16px;
   justify-self: end;
   box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
 }
 
 #filterList {
@@ -236,9 +237,7 @@ footer a {
   padding-right: 0px;
   margin-top: 0px;
 }
-#filterList h1{
-  border-radius: 16px;
-}
+
 #filterList li {
   padding-left: 50px;
   padding-top: 20px;
@@ -250,8 +249,6 @@ footer a {
   box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
 }
 #resultsBox h1 {
-  border-radius: 16px;
-
   margin-bottom: 16px;
 }
 #resultsBox > button:nth-of-type(1),
@@ -364,7 +361,6 @@ footer a {
   background-color: var(--colorSecondary);
   color: #fff;
   padding: 10px;
-
 }
 
 #songInfoList {
