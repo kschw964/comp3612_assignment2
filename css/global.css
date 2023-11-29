@@ -36,6 +36,10 @@ h1 {
   color: white;
 }
 
+button:active {
+  opacity: 70%;
+}
+
 /* Header */
 header {
   background-color: var(--colorPrimary);
@@ -125,10 +129,6 @@ main#playlist header button {
 
 main#playlist header button:hover {
   opacity: 90%;
-}
-
-main#playlist header button:active {
-  opacity: 70%;
 }
 
 main#playlist table {
@@ -258,7 +258,8 @@ footer a {
 #resultsBox > button:nth-of-type(2),
 #resultsBox > button:nth-of-type(3),
 #resultsBox > button:nth-of-type(4),
-#resultsBox > button:nth-of-type(5) {
+#resultsBox > button:nth-of-type(5),
+#filterBox button {
   cursor: pointer;
   padding: 8px 32px;
   border: none;
@@ -295,7 +296,8 @@ footer a {
 #orderPopularity {
   margin-left: 10px;
 }
-#resultsBox > button.buttonSelected {
+#resultsBox > button.buttonSelected,
+#filterBox button:last-of-type {
   color: white;
   background-color: var(--colorSecondary);
 }
