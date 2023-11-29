@@ -19,7 +19,6 @@ document.addEventListener("DOMContentLoaded", () => {
         populateHomeScreen(data);
         populateSearchScreen(data);
         addfilterEventListeners(data);
-        FORTESTINGONLY_addRandomSongButton(data);
       })
       .catch((error) => {
         console.error(error);
@@ -29,7 +28,6 @@ document.addEventListener("DOMContentLoaded", () => {
     populateHomeScreen(storedSongs);
     populateSearchScreen(storedSongs);
     addfilterEventListeners(storedSongs);
-    FORTESTINGONLY_addRandomSongButton(storedSongs);
   }
   addPopupFunctionality();
   addNavClickListeners();
@@ -51,24 +49,15 @@ function addNavClickListeners() {
   document
     .querySelector("nav button#searchButton")
     .addEventListener("click", (e) => {
-      document.querySelector("main#home").style.display = "none";
-      document.querySelector("main#search").style.display = "grid";
-      document.querySelector("main#playlist").style.display = "none";
-      document.querySelector("main#song").style.display = "none";
+      showScreen("search");
     });
   document
     .querySelector("nav button#playlistButton")
     .addEventListener("click", (e) => {
-      document.querySelector("main#home").style.display = "none";
-      document.querySelector("main#search").style.display = "none";
-      document.querySelector("main#playlist").style.display = "grid";
-      document.querySelector("main#song").style.display = "none";
+      showScreen("playlist");
     });
   document.querySelector("header img").addEventListener("click", (e) => {
-    document.querySelector("main#home").style.display = "grid";
-    document.querySelector("main#search").style.display = "none";
-    document.querySelector("main#playlist").style.display = "none";
-    document.querySelector("main#song").style.display = "none";
+    showScreen("home");
   });
 }
 
@@ -88,21 +77,9 @@ clear = radio set to title, text/dropdowns reset, populate with default songList
 */
   const clearButton = document.querySelector("#clearButton");
   clearButton.addEventListener("click", () => {
-    let titleRadio = document.querySelector("#titleRadio");
-    titleRadio.checked = true;
+    resetFilterFields();
 
-    let filterRadioSelected = document.querySelector(
-      'input[name="filterMethod"]'
-    );
-    filterRadioSelected.value = 0;
-
-    const titleTextField = document.querySelector("#titleTextField");
-    titleTextField.value = "";
-    const artistDropdown = document.querySelector("#artistDropdown");
-    artistDropdown.selectedIndex = 0;
-    const genreDropdown = document.querySelector("#genreDropdown");
-    genreDropdown.selectedIndex = 0;
-
+    document.querySelector("#titleRadio").checked = true;
     highlightTitleField();
     selectSortingButton("#orderTitle");
 
@@ -265,59 +242,47 @@ function launchBrowseWithFilter(songList, filterByType, filterTarget) {
   const newSongList = filterList(songList, filterByType, filterTarget);
   const arrangedList = rearrangeList(newSongList, "title");
 
-  console.log(filterByType, filterTarget);
+  resetFilterFields();
 
   if (filterByType == "artist") {
     document.querySelector("#artistRadio").checked = true;
     highlightArtistField();
-    const titleTextField = document.querySelector("#titleTextField");
-    titleTextField.value = "";
-    const genreDropdown = document.querySelector("#genreDropdown");
-    genreDropdown.selectedIndex = 0;
     // Find the option and select it for the dropdown
     const artistDropdown = document.querySelector("#artistDropdown");
-    const optionsCollection = artistDropdown.options;
-    const numberOfOptions = optionsCollection.length;
-    let option;
-    let optionIndex;
-    for (let i = 0; i < numberOfOptions; i++) {
-      option = optionsCollection[i];
-      if (option.value == filterTarget) {
-        optionIndex = i;
-        break;
-      }
-    }
-    artistDropdown.selectedIndex = optionIndex;
-    populateBrowseList(arrangedList);
+    artistDropdown.selectedIndex = indexOfOption(
+      artistDropdown.options,
+      filterTarget
+    );
   } else {
     document.querySelector("#genreRadio").checked = true;
     highlightGenreField();
-    const titleTextField = document.querySelector("#titleTextField");
-    titleTextField.value = "";
-    const artistDropdown = document.querySelector("#artistDropdown");
-    artistDropdown.selectedIndex = 0;
     // Find the option and select it for the dropdown
     const genreDropdown = document.querySelector("#genreDropdown");
-    const optionsCollection = genreDropdown.options;
-    const numberOfOptions = optionsCollection.length;
-    let option;
-    let optionIndex;
-    for (let i = 0; i < numberOfOptions; i++) {
-      option = optionsCollection[i];
-      if (option.value == filterTarget) {
-        optionIndex = i;
-        console.log(optionIndex);
-        break;
-      }
-    }
-    genreDropdown.selectedIndex = optionIndex;
-    populateBrowseList(arrangedList);
+    genreDropdown.selectedIndex = indexOfOption(
+      genreDropdown.options,
+      filterTarget
+    );
   }
-  document.querySelector("main#home").style.display = "none";
-  document.querySelector("main#search").style.display = "grid";
-  document.querySelector("main#playlist").style.display = "none";
-  document.querySelector("main#song").style.display = "none";
+  populateBrowseList(arrangedList);
   selectSortingButton("#orderTitle");
+  showScreen("search");
+}
+
+function indexOfOption(collection, value) {
+  let optionIndex = 0;
+  for (let i = 0; i < collection.length; i++) {
+    if (collection[i].value == value) {
+      optionIndex = i;
+      break;
+    }
+  }
+  return optionIndex;
+}
+
+function resetFilterFields() {
+  document.querySelector("#titleTextField").value = "";
+  document.querySelector("#artistDropdown").selectedIndex = 0;
+  document.querySelector("#genreDropdown").selectedIndex = 0;
 }
 
 function populateSearchScreen(songList) {
@@ -331,13 +296,24 @@ function populateSearchScreen(songList) {
   populateBrowseList(arrangedList);
 }
 
-function showSingleSongView(songID) {
-  populateSongViewScreen(songID, JSON.parse(localStorage.getItem("songList")));
+function showScreen(name) {
+  // hide all screens
   document.querySelector("main#home").style.display = "none";
   document.querySelector("main#search").style.display = "none";
   document.querySelector("main#playlist").style.display = "none";
-  document.querySelector("main#song").style.display = "grid";
+  document.querySelector("main#song").style.display = "none";
+
+  // show the wanted one
+  document.querySelector("main#" + name).style.display = "grid";
 }
+
+function showSingleSongView(songID) {
+  populateSongViewScreen(songID, JSON.parse(localStorage.getItem("songList")));
+  showScreen("song");
+}
+
+
+
 
 
 function populateSongViewScreen(songID, songList) {
@@ -444,20 +420,6 @@ function populateSongViewScreen(songID, songList) {
     });
 
 
-}
-// for radarChart
-function addData(chart, newData) {
-  chart.data.datasets.forEach((dataset) => {
-      dataset.data.push(newData);
-  });
-  chart.update();
-}
-function removeData(chart) {
-  // chart.data.labels.pop();
-  chart.data.datasets.forEach((dataset) => {
-      dataset.data.pop();
-  });
-  chart.update();
 }
 
 /* 
@@ -586,58 +548,27 @@ function rearrangeList(songList, orderByType) {
   // Deep copy using JSON methods
   const newList = JSON.parse(JSON.stringify(songList));
 
-  if (orderByType == "year") {
-    newList.sort((a, b) => {
-      if (a.year < b.year) {
-        return 1;
-      }
-      if (a.year > b.year) {
-        return -1;
-      }
-      return 0;
-    });
-  } else if (orderByType == "title") {
-    newList.sort((a, b) => {
-      if (a.title < b.title) {
-        return -1;
-      }
-      if (a.title > b.title) {
-        return 1;
-      }
-      return 0;
-    });
-  } else if (orderByType == "artist") {
-    newList.sort((a, b) => {
-      if (a.artist.name < b.artist.name) {
-        return -1;
-      }
-      if (a.artist.name > b.artist.name) {
-        return 1;
-      }
-      return 0;
-    });
-  } else if (orderByType == "genre") {
-    newList.sort((a, b) => {
-      if (a.genre.name < b.genre.name) {
-        return -1;
-      }
-      if (a.genre.name > b.genre.name) {
-        return 1;
-      }
-      return 0;
-    });
-  } else {
-    // popularity
-    newList.sort((a, b) => {
-      if (a.details.popularity < b.details.popularity) {
-        return 1;
-      }
-      if (a.details.popularity > b.details.popularity) {
-        return -1;
-      }
-      return 0;
-    });
+  switch (orderByType) {
+    case "title":
+      newList.sort((a, b) => a[orderByType].localeCompare(b[orderByType]));
+      break;
+
+    case "genre":
+    case "artist":
+      newList.sort((a, b) =>
+        a[orderByType].name.localeCompare(b[orderByType].name)
+      );
+      break;
+
+    case "year":
+      newList.sort((a, b) => a[orderByType] - b[orderByType]);
+      break;
+
+    case "popularity":
+      newList.sort((a, b) => a.details[orderByType] - b.details[orderByType]);
+      break;
   }
+
   return newList;
 }
 
@@ -657,30 +588,23 @@ function rearrangeList(songList, orderByType) {
 */
 function filterList(songList, filterByType, filterTarget) {
   // loop through all songs. if substring, then make deep copy and add to newList
-  const newList = [];
+  let newList;
 
-  if (filterByType == "title") {
-    for (const songs of songList) {
-      if (songs.title.includes(filterTarget)) {
-        const copiedSong = JSON.parse(JSON.stringify(songs));
-        newList.push(copiedSong);
-      }
-    }
-  } else if (filterByType == "genre") {
-    for (const songs of songList) {
-      if (songs.genre.name.includes(filterTarget)) {
-        const copiedSong = JSON.parse(JSON.stringify(songs));
-        newList.push(copiedSong);
-      }
-    }
-  } else {
-    //"artist"
-    for (const songs of songList) {
-      if (songs.artist.name.includes(filterTarget)) {
-        const copiedSong = JSON.parse(JSON.stringify(songs));
-        newList.push(copiedSong);
-      }
-    }
+  switch (filterByType) {
+    case "title":
+      newList = songList.filter((song) => song.title.includes(filterTarget));
+      break;
+
+    case "genre":
+    case "artist":
+      newList = songList.filter((song) =>
+        song[filterByType].name.includes(filterTarget)
+      );
+      break;
+
+    default:
+      newList = [];
+      console.error("filterList(): Wrong filter-type provided");
   }
 
   return newList;
@@ -898,16 +822,4 @@ function createTextTabelData(text) {
   const td = document.createElement("td");
   td.textContent = text;
   return td;
-}
-
-// TODO: remove once search-view is implemented
-function FORTESTINGONLY_addRandomSongButton(songList) {
-  const buttonAdd = document.createElement("button");
-  buttonAdd.textContent = "Add Random";
-  buttonAdd.addEventListener("click", (e) => {
-    addSongToPlaylist(
-      songList[Math.floor(Math.random() * songList.length)].song_id
-    );
-  });
-  document.querySelector("main#playlist section header").appendChild(buttonAdd);
 }
