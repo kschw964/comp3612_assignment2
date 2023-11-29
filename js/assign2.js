@@ -604,6 +604,7 @@ function filterList(songList, filterByType, filterTarget) {
   }
 
   orderedByTitle = rearrangeList(newList, "title");
+  selectSortingButton("#orderTitle");
 
   return orderedByTitle;
 }
