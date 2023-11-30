@@ -782,8 +782,8 @@ function removeSongFromPlaylist(song_id) {
 
     // remove song from table in DOM
     document
-      .querySelector(`main#playlist tbody tr[data-song_id="${song_id}"]`)
-      .remove();
+      .querySelectorAll(`main#playlist tbody tr[data-song_id="${song_id}"]`)
+      .forEach((element) => element.remove());
   }
 }
 
