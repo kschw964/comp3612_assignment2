@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // call methods that need the songList using data as argument
         populateHomeScreen(data);
         populateSearchScreen(data);
-        addfilterEventListeners(data);
+        addFilterEventListeners(data);
       })
       .catch((error) => {
         console.error(error);
@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // call methods that need the songList using the storedSongs variable
     populateHomeScreen(storedSongs);
     populateSearchScreen(storedSongs);
-    addfilterEventListeners(storedSongs);
+    addFilterEventListeners(storedSongs);
   }
   addPopupFunctionality();
   addNavClickListeners();
@@ -61,7 +61,7 @@ function addNavClickListeners() {
   });
 }
 
-function addfilterEventListeners(songList) {
+function addFilterEventListeners(songList) {
   /* 
 listens to radioButtons and greys non-selected.
 */
@@ -101,38 +101,49 @@ arranges them alphabetically per given category
 
   // 'add to playlist button' for each li
   const browseList = document.querySelector("#browseList");
-  browseList.addEventListener("click", function (e) {
-    if (e.target.tagName === "BUTTON") {
-      const songID = e.target.dataset.songId;
-      addSongToPlaylist(songID);
+  browseList.addEventListener("click", handleBrowseListClick);
+}
 
-      //song added to playlist popup
-      const addedPopUp = document.querySelector(".addedPopUp");
-      addedPopUp.classList.add("show");
-      setTimeout(() => {
-        addedPopUp.classList.remove("show");
-      }, 5000);
-    }
-    //listener for the name part of list item of song, then grabs the div ID which was set to the song ID.
-    //Switch to song screen, pass the song ID to a new function that populates the song page.
-    if (e.target.classList.contains("songName")) {
-      const songID = e.target.dataset.songId;
-      showSingleSongView(songID);
-    }
+function handleFilterClearButtonClick(e) {
+  resetFilterFields();
 
-    if (e.target.classList.contains("elips")) {
-      const songName = e.target.dataset.fullSongName;
-      const songPopUp = document.createTextNode(
-        songName.substring(25, songName.length)
-      );
-      e.target.classList.add("hidden");
-      e.target.parentNode.appendChild(songPopUp);
-      setTimeout(() => {
-        e.target.parentNode.removeChild(songPopUp);
-        e.target.classList.remove("hidden");
-      }, 3000);
-    }
-  });
+  document.querySelector("#titleRadio").checked = true;
+  highlightTitleField();
+  selectSortingButton("#orderTitle");
+
+  const arrangedList = rearrangeList(songList, "title");
+  populateBrowseList(arrangedList);
+}
+
+function handleBrowseListClick(e) {
+  if (e.target.tagName === "BUTTON") {
+    addSongToPlaylist(e.target.dataset.songId);
+
+    //song added to playlist popup
+    const addedPopUp = document.querySelector(".addedPopUp");
+    addedPopUp.classList.add("show");
+    setTimeout(() => {
+      addedPopUp.classList.remove("show");
+    }, 5000);
+  }
+  //listener for the name part of list item of song, then grabs the div ID which was set to the song ID.
+  //Switch to song screen, pass the song ID to a new function that populates the song page.
+  if (e.target.classList.contains("songName")) {
+    showSingleSongView(e.target.dataset.songId);
+  }
+
+  if (e.target.classList.contains("elips")) {
+    const songName = e.target.dataset.fullSongName;
+    const songPopUp = document.createTextNode(
+      songName.substring(25, songName.length)
+    );
+    e.target.classList.add("hidden");
+    e.target.parentNode.appendChild(songPopUp);
+    setTimeout(() => {
+      e.target.parentNode.removeChild(songPopUp);
+      e.target.classList.remove("hidden");
+    }, 3000);
+  }
 }
 
 function addSortButtonListeners(songList) {
@@ -188,21 +199,33 @@ function selectSortingButton(css_selector) {
 }
 
 function highlightTitleField() {
-  document.querySelector("#titleTextField").style.opacity = "1";
-  document.querySelector("#artistDropdown").style.opacity = "0.5";
-  document.querySelector("#genreDropdown").style.opacity = "0.5";
+  enableInput("#titleTextField");
+  disableInput("#artistDropdown");
+  disableInput("#genreDropdown");
 }
 
 function highlightArtistField() {
-  document.querySelector("#titleTextField").style.opacity = "0.5";
-  document.querySelector("#artistDropdown").style.opacity = "1";
-  document.querySelector("#genreDropdown").style.opacity = "0.5";
+  disableInput("#titleTextField");
+  enableInput("#artistDropdown");
+  disableInput("#genreDropdown");
 }
 
 function highlightGenreField() {
-  document.querySelector("#titleTextField").style.opacity = "0.5";
-  document.querySelector("#artistDropdown").style.opacity = "0.5";
-  document.querySelector("#genreDropdown").style.opacity = "1";
+  disableInput("#titleTextField");
+  disableInput("#artistDropdown");
+  enableInput("#genreDropdown");
+}
+
+function enableInput(css_selector) {
+  const input = document.querySelector(css_selector);
+  input.style.opacity = "1";
+  input.removeAttribute("disabled");
+}
+
+function disableInput(css_selector) {
+  const input = document.querySelector(css_selector);
+  input.style.opacity = "0.5";
+  input.setAttribute("disabled", true);
 }
 
 /*
