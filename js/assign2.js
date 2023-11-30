@@ -317,6 +317,7 @@ function populateSearchScreen(songList) {
   fetchArtists();
   // grey non selected radio buttons
   highlightTitleField();
+  document.querySelector("#titleRadio").checked = true;
   // inittialy arrange alpabetically by title
   const arrangedList = rearrangeList(songList, "title");
   populateBrowseList(arrangedList);
