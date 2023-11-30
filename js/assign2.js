@@ -505,7 +505,7 @@ function populateBrowseList(songList) {
     );
 
     const addButton = document.createElement("button");
-    addButton.textContent = "+Playlist";
+    addButton.textContent = "Add to Playlist";
     addButton.dataset.songId = song.song_id;
     addButton.classList.add("addToPlayListButton");
     newLi.appendChild(addButton);
