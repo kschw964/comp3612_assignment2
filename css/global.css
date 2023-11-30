@@ -118,6 +118,11 @@ main#home section ul li:nth-of-type(even) {
 }
 
 /* Playlist Screen */
+main#playlist header {
+  padding-left: 48px;
+  padding-right: 48px;
+}
+
 main#playlist header button {
   cursor: pointer;
   padding: 8px 32px;
