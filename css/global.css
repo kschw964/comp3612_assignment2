@@ -267,7 +267,7 @@ footer a {
 #browseList {
   list-style-type: none;
   padding-left: 50px;
-  height: 500px;
+  height: 560px;
   width: 100%;
   overflow-y: scroll;
 }
@@ -361,7 +361,7 @@ footer a {
 #songInfo {
   background-color: var(--colorSurface);
   justify-self: end;
-  width: 40%;
+  width: 50%;
   height: 90%;
   text-align: center;
 }
@@ -391,7 +391,7 @@ footer a {
 
 #radarSection {
   background-color: var(--colorSurface);
-  width: 55%;
+  width: 60%;
   height: 100%;
   text-align: center;
 }
@@ -399,5 +399,4 @@ footer a {
 #radarCanvas {
   background-color: white;
   width: 100%;
-  height: 100px;
 }

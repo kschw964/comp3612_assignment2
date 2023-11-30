@@ -419,6 +419,7 @@ function populateSongViewScreen(songID, songList) {
           ],
         },
         options: {
+          responsive: true,
           plugins: {
             legend: {
               display: false,
